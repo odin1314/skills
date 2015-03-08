@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>路由篇 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux网络" href="index.html" />
+    <link rel="next" title="&lt;no title&gt;" href="../Linux_user/index.html" />
+    <link rel="prev" title="ARP篇" href="arp.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../Linux_user/index.html" title="&lt;no title&gt;"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="arp.html" title="ARP篇"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux网络</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>路由篇<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="linux-ipv4">
+<h2>查看Linux 内核路由(ipv4)<a class="headerlink" href="#linux-ipv4" title="永久链接至标题">¶</a></h2>
+<p>1)route</p>
+<p>或</p>
+<p>route -n</p>
+<img alt="../_images/kernel-route.png" src="../_images/kernel-route.png" />
+<img alt="../_images/route.png" src="../_images/route.png" />
+<p>2）ip route show</p>
+<img alt="../_images/route-show.png" src="../_images/route-show.png" />
+<p>3)ip route list table local</p>
+<blockquote>
+<div>ip route list table main</div></blockquote>
+<img alt="../_images/table-local.png" src="../_images/table-local.png" />
+</div>
+<div class="section" id="linux-ipv6">
+<h2>查看Linux 内核路由(ipv6)<a class="headerlink" href="#linux-ipv6" title="永久链接至标题">¶</a></h2>
+<p>1)route -n -6</p>
+<p>2)route -A inet6</p>
+<p>3)ip -6 route show</p>
+<p>4)ip -6 route show dev eth0</p>
+</div>
+<div class="section" id="ipv4">
+<h2>添加路由(ipv4)<a class="headerlink" href="#ipv4" title="永久链接至标题">¶</a></h2>
+<p>添加默认路由</p>
+<p>1)ip route add default via 10.5.68.1 dev eth0 table test</p>
+<p>添加到主机的路由</p>
+<p>2)route add -host 192.168.1.2 dev eth0:0</p>
+<p>3)route add -host 10.20.30.148 gw 10.20.30.40</p>
+<p>添加到网络的路由</p>
+<p>4)route add -net 10.20.30.40 netmask 255.255.255.248 eth0</p>
+<p>5)route add -net 10.20.30.48 netmask 255.255.255.248 gw 10.20.30.41</p>
+<p>6)route add -net 192.168.1.0/24 eth1</p>
+</div>
+<div class="section" id="ipv6">
+<h2>添加路由(ipv6)<a class="headerlink" href="#ipv6" title="永久链接至标题">¶</a></h2>
+<p>1)ip -6 route add 2000::/3 via 3ffe:ffff:0:f101::1</p>
+<p>2)route -A inet6 add 2000::/3 gw 3ffe:ffff:0:f101::1</p>
+<p>3)ip -6 route add 2000::/3 dev eth0 metric 1</p>
+<p>4)route -A inet6 add 2000::/3 dev eth0</p>
+<p>5)route -A inet6 add default gw 2001:250:3000:2:2c0:95ff:fee0:473f</p>
+</div>
+<div class="section" id="id2">
+<h2>删除路由(ipv4)<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>1)route del -host 192.168.1.2 dev eth0:0</p>
+<p>2)route del -host 10.20.30.148 gw 10.20.30.40</p>
+<p>3)route del -net 10.20.30.40 netmask 255.255.255.248 eth0</p>
+<p>4)route del -net 10.20.30.48 netmask 255.255.255.248 gw 10.20.30.41</p>
+<p>5)route del -net 192.168.1.0/24 eth1</p>
+<p>6)route del default gw 192.168.1.1</p>
+</div>
+<div class="section" id="id3">
+<h2>删除路由(ipv6)<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>1)ip -6 route del 2000::/3 via 3ffe:ffff:0:f101::1</p>
+<p>2)route -A inet6 del 2000::/3 gw 3ffe:ffff:0:f101::1</p>
+<p>3)ip -6 route del 2000::/3 dev eth0</p>
+<p>4)route -A inet6 del 2000::/3 dev eth0</p>
+</div>
+<div class="section" id="id4">
+<h2>刷新路由表<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>ip route flush  cache</p>
+</div>
+<div class="section" id="id5">
+<h2>三种路由类型<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>主机路由</p>
+<p>主机路由是路由选择表中指向单个IP地址或主机名的路由记录。主机路由的Flags字段为H。例如，在下面的示例中，
+本地主机通过IP地址192.168.1.1的路由器到达IP地址为10.0.0.10的主机。</p>
+<img alt="../_images/host-route.png" src="../_images/host-route.png" />
+<p>网络路由</p>
+<p>网络路由是代表主机可以到达的网络。网络路由的Flags字段为N。例如，在下面的示例中，本地主机将发送到网络
+192.19.12的数据包转发到IP地址为192.168.1.1的路由器。</p>
+<img alt="../_images/network-route.png" src="../_images/network-route.png" />
+<p>默认路由</p>
+<p>当主机不能在路由表中查找到目标主机的IP地址或网络路由时，数据包就被发送到默认路由（默认网关）上。默认路由
+的Flags字段为G。例如，在下面的示例中，默认路由是IP地址为192.168.1.1的路由器。</p>
+<img alt="../_images/default-route.png" src="../_images/default-route.png" />
+</div>
+<div class="section" id="id6">
+<h2>设置路由转发<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p>1)临时生效</p>
+<p>echo &#8216;1&#8217; &gt;/proc/sys/net/ipv4/ip_forward</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">重启后配置失效</p>
+</div>
+<p>2)永久生效</p>
+<p>sysctl -w net.ipv4.ip_forward=1</p>
+<p>或</p>
+<p>echo &#8220;net.ipv4.ip_forward = 1&#8221; &gt;&gt;/etc/sysctl.conf</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">别忘记使用 sysctl -p 是配置生效</p>
+</div>
+<p>3)查看系统目前支不支持路由转发</p>
+<p>sysctl net.ipv4.ip_forward</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">路由篇</a><ul>
+<li><a class="reference internal" href="#linux-ipv4">查看Linux 内核路由(ipv4)</a></li>
+<li><a class="reference internal" href="#linux-ipv6">查看Linux 内核路由(ipv6)</a></li>
+<li><a class="reference internal" href="#ipv4">添加路由(ipv4)</a></li>
+<li><a class="reference internal" href="#ipv6">添加路由(ipv6)</a></li>
+<li><a class="reference internal" href="#id2">删除路由(ipv4)</a></li>
+<li><a class="reference internal" href="#id3">删除路由(ipv6)</a></li>
+<li><a class="reference internal" href="#id4">刷新路由表</a></li>
+<li><a class="reference internal" href="#id5">三种路由类型</a></li>
+<li><a class="reference internal" href="#id6">设置路由转发</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="arp.html"
+                        title="上一章">ARP篇</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="../Linux_user/index.html"
+                        title="下一章">&lt;no title&gt;</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_net/route.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../Linux_user/index.html" title="&lt;no title&gt;"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="arp.html" title="ARP篇"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux网络</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

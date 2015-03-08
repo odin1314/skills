@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Linux 敏感信息获取 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux 安全" href="index.html" />
+    <link rel="next" title="common ports" href="ports.html" />
+    <link rel="prev" title="Linux 安全" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="ports.html" title="common ports"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Linux 安全"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux 安全</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="linux">
+<h1>Linux 敏感信息获取<a class="headerlink" href="#linux" title="永久链接至标题">¶</a></h1>
+<p><strong>1、操作系统版本</strong></p>
+<blockquote>
+<div><p>cat /etc/issue</p>
+<p>cat /etc/issue.net</p>
+<p>cat /etc/lsb-release</p>
+<p>cat /etc/redhat-release</p>
+<p>cat /proc/version</p>
+</div></blockquote>
+<p><strong>2、内核版本</strong></p>
+<blockquote>
+<div><p>uname -a</p>
+<p>cat /proc/version</p>
+<p>ls /boot <a href="#id1"><span class="problematic" id="id2">|</span></a>grep vmlinuz</p>
+<p>dmesg <a href="#id3"><span class="problematic" id="id4">|</span></a>grep linux</p>
+<p>uname -mrs</p>
+</div></blockquote>
+<p><strong>3、系统架构</strong></p>
+<blockquote>
+<div><p>uname -m</p>
+<p>arch</p>
+</div></blockquote>
+<p><strong>4、查看系统初始化文件</strong></p>
+<blockquote>
+<div><p>cat /etc/profile</p>
+<p>cat /etc/bashrc</p>
+<p>cat ~/.bashrc</p>
+<p>cat ~/.bash_profile</p>
+<p>cat ~/.bash_logout</p>
+<p>cat ~/.bash_history</p>
+<p>cat ~/.mysql_history</p>
+<p>cat ~/.nano_history</p>
+<p>cat ~/.php_history</p>
+</div></blockquote>
+<p><strong>5、运行进程信息</strong></p>
+<blockquote>
+<div><p>ps aux</p>
+<p>ps -ef</p>
+</div></blockquote>
+<p><strong>6、查看具有root权限的进程</strong></p>
+<blockquote>
+<div><p>ps aux <a href="#id5"><span class="problematic" id="id6">|</span></a>grep root</p>
+<p>ps -ef <a href="#id7"><span class="problematic" id="id8">|</span></a>grep root</p>
+</div></blockquote>
+<p><strong>7、查看安装了哪些程序</strong></p>
+<blockquote>
+<div><p>dpkg -l</p>
+<p>rpm -qa</p>
+<p>ls -alh /usr/bin</p>
+<p>ls -alh /sbin</p>
+<p>ls -al /var/cache/yum</p>
+<p>ls -al /var/cache/apt/archives</p>
+</div></blockquote>
+<p><strong>8、 重要配置文件</strong></p>
+<blockquote>
+<div><p>cat /etc/syslog.conf</p>
+<p>cat /etc/my.cnf</p>
+<p>cat /etc/mysql/my.cnf</p>
+<p>cat /etc/apache2/apache2.conf</p>
+<p>cat /etc/lighttpd.conf</p>
+<p>cat /etc/ssh/sshd_config</p>
+<p>cat /etc/passwd</p>
+<p>cat /etc/shadow</p>
+<p>cat /etc/group</p>
+<p>cat /etc/network/interfaces</p>
+<p>cat /etc/sysconfig/network</p>
+<p>cat /etc/sysconfig/network-scripts/ifcfg-ethx</p>
+<p>cat /etc/resolv.conf</p>
+</div></blockquote>
+<p><strong>9、查看系统工作计划</strong></p>
+<blockquote>
+<div><p>crontab -l</p>
+<p>ls -alh /var/spool/cron</p>
+<p>ls -al /etc <a href="#id9"><span class="problematic" id="id10">|</span></a>grep cron</p>
+<p>ls -al /etc/cron*</p>
+<p>cat /etc/cron*</p>
+<p>cat /etc/at.allow</p>
+<p>cat /etc/at.deny</p>
+<p>cat /etc/cron.allow</p>
+<p>cat /etc/cron.deny</p>
+<p>cat /etc/crontab</p>
+</div></blockquote>
+<p><strong>10、查看系统外连限制</strong></p>
+<blockquote>
+<div><p>cat /etc/host.deny</p>
+<blockquote>
+<div><p>cat /etc/host.allow</p>
+<p>iptables -L</p>
+<p>netstat -antlp</p>
+<p>netstat -aunlp</p>
+<p>chkconfig &#8211;list</p>
+<p>route -n</p>
+<p>arp -e</p>
+</div></blockquote>
+</div></blockquote>
+<p><strong>12、查看包含密码的文件</strong></p>
+<blockquote>
+<div><p>grep -i user</p>
+<p>grep -i pass</p>
+</div></blockquote>
+<p><strong>13、/etc 下敏感文件</strong></p>
+<blockquote>
+<div><p>ls -aRl /etc/ <a href="#id11"><span class="problematic" id="id12">|</span></a>awk &#8216;{if($1~/..w......./){print $9}}&#8217; &amp;&gt;/dev/null  #用户可写</p>
+<p>ls -aRl /etc/ <a href="#id13"><span class="problematic" id="id14">|</span></a>awk &#8216;{if($1~/.....w..../){print $9}}&#8217; &amp;&gt;/dev/null  #用户组可写</p>
+<p>ls -aRl /etc/ <a href="#id15"><span class="problematic" id="id16">|</span></a>awk &#8216;{if($1~/........w./){print $9}}&#8217; &amp;&gt;/dev/null  #other可写</p>
+</div></blockquote>
+<p><strong>14、系统磁盘布局</strong></p>
+<blockquote>
+<div><p>cat /etc/fstab</p>
+<p>cat /etc/mstab</p>
+<p>df -h</p>
+</div></blockquote>
+<p><strong>15、查看系统日志</strong></p>
+<blockquote>
+<div><p>more /var/log/apache2/xxx.log</p>
+<p>more /var/log/auth.log</p>
+<p>more /var/log/messages</p>
+<p>more /var/log/lastlog</p>
+<p>more /var/lg/secure</p>
+<p>more /var/log/syslog</p>
+</div></blockquote>
+<p><strong>16、查找特殊标志位的文件或目录</strong></p>
+<blockquote>
+<div><p>find / -type f -perm -4100</p>
+<p>find / -type f -perm -u=s</p>
+<p>find / -type f or type d -perm 2000</p>
+<p>find / -type f or type d -perm -g=s</p>
+<p>find / -type d -perm 1000</p>
+<p>find / -perm -222 -type d</p>
+<p>find / -perm -o+w -tye d</p>
+<p>find / -perm -o+x -type d</p>
+</div></blockquote>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="index.html"
+                        title="上一章">Linux 安全</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="ports.html"
+                        title="下一章">common ports</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_security/info.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="ports.html" title="common ports"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Linux 安全"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux 安全</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

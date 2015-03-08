@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>配置命令 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux用户管理" href="index.html" />
+    <link rel="next" title="Linux查找|过滤命令" href="../Linux_find/index.html" />
+    <link rel="prev" title="配置文件" href="configfile.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../Linux_find/index.html" title="Linux查找|过滤命令"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="configfile.html" title="配置文件"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux用户管理</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>配置命令<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>账户管理命令<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h3>组管理<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p><strong>1、groupadd</strong></p>
+<p>groupadd  用于添加组账号。格式如下：</p>
+<img alt="../_images/groupadd.png" src="../_images/groupadd.png" />
+<p>其中：</p>
+<blockquote>
+<div><ul class="simple">
+<li>GROUP：是要添加的组名</li>
+<li>-g：用于指定 GID，默认为使用当前最大的 GID 加1</li>
+</ul>
+</div></blockquote>
+<p><a href="#id4"><span class="problematic" id="id5">**</span></a>2、groupmod **</p>
+<p>groupmod  用于修改系统已存在的组账号。格式如下：</p>
+<img alt="../_images/groupdel.png" src="../_images/groupdel.png" />
+<p>其中：</p>
+<p>GROUP：为要修改的组账户名</p>
+<p>常用选项：</p>
+<blockquote>
+<div><ul class="simple">
+<li>-g GID：重新指派 GID</li>
+<li>-n NEW_GROUP：更改组名为 NEW_GROUP</li>
+</ul>
+</div></blockquote>
+<p><strong>3、groupdel</strong></p>
+<p>groupdel  用于删除系统已存在的组账号。格式如下：</p>
+<img alt="../_images/groupdel.png" src="../_images/groupdel.png" />
+<p><strong>4、groups</strong></p>
+<p>查看当前用户所属用户组</p>
+<p><strong>5、grpck</strong></p>
+<p>检查用户组配置文件</p>
+<p><strong>6、chgrp</strong></p>
+<p>修改文件所属组</p>
+<p><strong>7、vigr</strong></p>
+<p>安全编辑 /etc/group 文件(编辑的时候锁定文件)</p>
+<p><strong>8、newgrp</strong></p>
+<p>切换用户组</p>
+</div>
+<div class="section" id="id6">
+<h3>用户管理<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p><strong>1、useradd</strong></p>
+<p>useradd 用于添加用户账号或设置添加用户使用的默认信息。格式如下：</p>
+<img alt="../_images/useradd.png" src="../_images/useradd.png" />
+<p>说明：</p>
+<blockquote>
+<div><ul class="simple">
+<li>格式1：用于添加用户账号，LOGIN 为用户登录账号</li>
+<li>格式2：用于显示添加用户使用的默认信息</li>
+<li>格式3：用于设置添加用户使用的默认信息</li>
+</ul>
+</div></blockquote>
+<p>添加用户选项：</p>
+<img alt="../_images/useradd2.png" src="../_images/useradd2.png" />
+<img alt="../_images/useradd3.png" src="../_images/useradd3.png" />
+<p>改变用户默认值选项：</p>
+<img alt="../_images/useradd4.png" src="../_images/useradd4.png" />
+<p>2、usermod</p>
+<p>usermod 用于修改系统已存在的组账号。格式如下：</p>
+<img alt="../_images/usermod.png" src="../_images/usermod.png" />
+<p>其中：</p>
+<blockquote>
+<div><ul>
+<li><p class="first">LOGIN：为要修改的用户账号名</p>
+</li>
+<li><p class="first">选项：-c、-d、-e、-f、-g、-G、-s、-u 的含义与 useradd 选项的含义相同</p>
+</li>
+<li><dl class="first docutils">
+<dt>添加了如下选项：</dt>
+<dd><ul class="first last simple">
+<li>-l NEW_LOGIN：更改用户登录名为 NEW_LOGIN</li>
+<li>-L：锁定用户账号</li>
+<li>-U：对用户账号解除锁定</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>3、userdel</strong></p>
+<p>userdel  用于删除系统已存在的组账号。格式如下：</p>
+<img alt="../_images/userdel.png" src="../_images/userdel.png" />
+<p>其中：</p>
+<blockquote>
+<div><ul class="simple">
+<li>LOGIN：为要删除的用户账号名</li>
+<li>-r：同时删除用户的自家目录和 m ail 的假脱机文件</li>
+</ul>
+</div></blockquote>
+<p><strong>4、pwck</strong></p>
+<p>用来检测/etc/passwd 文件</p>
+<p><a href="#id7"><span class="problematic" id="id8">**</span></a>5、vipw **</p>
+<p>安全编辑/etc/passwd (编辑的时候锁定文件)</p>
+<p><strong>6、id</strong></p>
+<p>查看用户id和组信息</p>
+<p><a href="#id9"><span class="problematic" id="id10">**</span></a>7、finger **</p>
+<p>查看用户详细信息</p>
+<p><a href="#id11"><span class="problematic" id="id12">**</span></a>8、su **</p>
+<p>切换用户 (su - 表示切换用户环境)</p>
+<p><strong>9、passwd -S</strong></p>
+<p>查看当前用户密码状态</p>
+<p><a href="#id13"><span class="problematic" id="id14">**</span></a>10、who、w **</p>
+<p>查看用户登录状态</p>
+</div>
+</div>
+<div class="section" id="id15">
+<h2>口令管理<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h2>
+<p><strong>1、 passwd 命令管理口令</strong></p>
+<p>创建了用户账户之后，还要给新用户设置口令。设置用户口令的命令是 passwd</p>
+<img alt="../_images/passwd-ma.png" src="../_images/passwd-ma.png" />
+<p><strong>2、口令时效</strong></p>
+<p>目前已有更强大的硬件大大地缩短了利用自动运行的程序来猜测口令的时间。口令时效是系统管理员用来防止机构内不
+良口令的一种技术。防止口令被攻击的方法就是要经常地改变口令。为安全起见，要求用户定期改变他们的口令是明智
+之举。口令时效意味着过了一段预先设定的时间后，用户会被提示创建一个新口令。它所根据的理论是，如果用户被强
+制定期改变口令，某个破译的口令对入侵者来说就只有有限的利用机会。这种用来强制用户在一段时间之后更改口令的
+机制称为口令时效。</p>
+<p>2.1 设置新添用户的口令时效</p>
+<p>通过编辑 /etc/login.de fs，可以指定几个参数，来设置口令实效的默认设定：</p>
+<img alt="../_images/passwd-time.png" src="../_images/passwd-time.png" />
+<p>2.2 一句话修改密码</p>
+<blockquote>
+<div><p>echo &#8220;password″|passwd –stdin user</p>
+<p>echo &#8220;user:password&#8221;<a href="#id16"><span class="problematic" id="id17">|</span></a>chpasswd</p>
+</div></blockquote>
+<p>2.3 添加一个root权限的用户</p>
+<blockquote>
+<div>useradd -m -o -u 0 -g 0 hacker</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><ul class="simple">
+<li>PASS_MAX_DAYS：设定在多少天后要求用户修改口令。默认口令时效的天数为99999，即关闭了口令时效。更明智的设定一般是60天（每2个月）强制更改一次口令。</li>
+<li>PASS_MIN_DAYS：设定在本次口令修改后，下次允许更改口令之前所需的最少天数。</li>
+<li>PASS_MIN_LEN ：设定口令的最小字符数。</li>
+<li>PASS_WARN_AGE：设定在口令失效前多少天开始通知用户更改口令（一般在用户刚刚登陆系统时就会收到警告通知）。</li>
+</ul>
+</div></blockquote>
+<p>也可以编辑 /etc/default/useradd 文件中 INACTIVE 和 EXPIRE 的设置。</p>
+<img alt="../_images/passwd-time2.png" src="../_images/passwd-time2.png" />
+<hr class="docutils" />
+<blockquote>
+<div><ul class="simple">
+<li>INACTIVE：指明在口令失效后多久时间内，如果口令没有进行更改，则将账户更改为失效状态。默认值为 -1，即关闭了口令时效。更明智的设定一般是60天（每2个月）强制更改一次口令。</li>
+<li>EXPIRE：为设置所有新用户设定一个口令失效的明确时间（具体格式为“YYYY-MM-DD”）。</li>
+</ul>
+</div></blockquote>
+<p>设置已存在用户的口令时效</p>
+<p>对系统已存在用户设置口令时效是通过 chage</p>
+<img alt="../_images/chage.png" src="../_images/chage.png" />
+<p>=============================================================s============================================================================</p>
+<blockquote>
+<div><ul class="simple">
+<li>也可以使用chage &lt;用户名&gt;进入交互模式修改用户的口令时效。</li>
+<li>使用chage命令实质上是修改影子口令文件/e tc/shadow中的与口令时效相关的字段值。</li>
+<li>chage命令仅仅适用于本地系统账户，对LDAP账号和数据库账号不起作用。</li>
+</ul>
+</div></blockquote>
+<p>制定一项策略，定义多长时间一个口令必须进行更改，然后强制执行该策略，是非常不错的一个做法。在解雇了某个雇
+员后，口令时效策略会保证该雇员不可能在被解雇3个月后发现他的口令依然可用。即使系统管理员忽略了删除他的帐
+号，该帐号也会因口令时效策略而被自动锁定。当然，这一点并不能成为不及时删除该雇员帐号的理由，但是这个策略
+的确提供了一层额外的安全防护，尤其是在过去常常忽视及时清理帐号的情况下。</p>
+</div>
+<div class="section" id="id18">
+<h2>用户状态切换<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h2>
+<p>系统管理员应该养成良好的习惯：以一个普通用户登录系统进行不同操作，当需要超级用户身份进行系统管理时再切换超级用户执行
+系统管理命令。有如下两种方式：</p>
+<blockquote>
+<div><ul>
+<li><p class="first">su</p>
+<blockquote>
+<div><ul class="simple">
+<li>直接切换为超级用户</li>
+<li>普通用户要切换为超级用户必须知道超级用户的口令</li>
+<li>适用于系统中只有单个系统管理员的情况</li>
+</ul>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt>sudo</dt>
+<dd><ul class="first last simple">
+<li>直接使用 sudo 命令前缀执行系统管理命令</li>
+<li>执行系统管理命令时无需知道超级用户的口令，使用普通用户自己的口令即可</li>
+<li>由于执行系统管理命令时无需知晓超级用户口令，所以适用于系统中有多个系统管理员的情况，因为这样不会泄露超级用户口令。当然系统只有单个系统管理员时也可以使用。</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<div class="section" id="su">
+<h3>su<a class="headerlink" href="#su" title="永久链接至标题">¶</a></h3>
+<p>su 用于切换当前用户到指定的用户账号，命令的格式如下：</p>
+<img alt="../_images/su.png" src="../_images/su.png" />
+<p>例子</p>
+<img alt="../_images/eg11.png" src="../_images/eg11.png" />
+<img alt="../_images/eg21.png" src="../_images/eg21.png" />
+</div>
+<div class="section" id="sudo">
+<h3>sudo<a class="headerlink" href="#sudo" title="永久链接至标题">¶</a></h3>
+<p>sudo 允许系统管理员（root）为几个用户或组委派权利，使之能运行部分或全部由 root （或另一个）用户执行的命令。sudo
+设计者的宗旨是：给用户尽可能少的权限但仍允许完成他们的工作。sudo 是设置了 SUID 位的执行文件。</p>
+<p><strong>1、sudo 具有以下特点：</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>sudo 能够限制指定用户在指定主机上运行某些命令。</li>
+<li>sudo 可以提供日志，忠实地记录每个用户使用sudo做了些什么，并且能将日志传到中心主机或者日志服务器。</li>
+<li>sudo 为系统管理员提供配置文件，允许系统管理员集中地管理用户的使用权限和使用的主机。它默认的存放位置是 /etc/sudoers。</li>
+<li>sudo 使用时间戳文件来完成类似“检票”的系统。当用户执行 sudo 并且输入密码后，用户获得了一张默认存活期为5分钟的“入场券”（默认值可以在编译的时候改变）。超时以后，用户必须重新输入密码。</li>
+</ul>
+</div></blockquote>
+<p><strong>2、用户执行 sudo 的执行过程：</strong></p>
+<img alt="../_images/sudo.png" src="../_images/sudo.png" />
+<p><strong>3、sudo 命令的格式</strong></p>
+<p>sudo 命令的格式为：</p>
+<img alt="../_images/sudoformat.png" src="../_images/sudoformat.png" />
+<p>其中：</p>
+<blockquote>
+<div><ul class="simple">
+<li>-V : 显示版本信息，并退出。</li>
+<li>-h : 显示帮助信息。</li>
+<li>-l : 显示当前用户（执行 sudo 的使用者）的权限，只有在 /e tc/sudoers 里的用户才能使用该选项。</li>
+<li>-v : 延长密码有效期限5分钟。</li>
+<li>-k : 将会强迫使用者在下一次执行 sudo 时问密码（不论有没有超过 5 分钟）。</li>
+<li>-H : 将环境变数中的 $HOME 指定为要变更身份的使用者家目录（如不加 -u 参数就是 /root ） 。</li>
+<li>-b : 在后台执行指令。</li>
+<li>-u username|#uid : 以指定的用户作为新的身份。身略此参数表示以 root 的身份执行指令。</li>
+<li>-i : 模拟一个新用户身份的初始 Shell。</li>
+<li>-s : 执行环境变量 $SHELL 所指定的 shell ，或是 /e tc/passwd 里所指定的 shell。</li>
+<li>command : 为以新用户身份要执行的命令。</li>
+</ul>
+</div></blockquote>
+<p><strong>4、配置 sudo</strong></p>
+<p>默认情况下，只有 root 用户可以使用 sudo 命令。要分派其他用户使用 sudo 命令，需要修改配置文件 /e tc/sudoers，下面
+是 CentOS 默认的 配置文件 /etc/sudoers：</p>
+<img alt="../_images/sudoers.png" src="../_images/sudoers.png" />
+<p>root 用户可以使用如下命令修改 sudo 的配置文件 /etc/sudoers ：</p>
+<img alt="../_images/visudo.png" src="../_images/visudo.png" />
+<p>上面的命令将启动 vi 编辑文件 /e tc/sudoers。之所以使用 visudo 有两个原因：一是它能够防止两个用户同时修改它；二是它
+也能进行有限的语法检查。</p>
+<p>/etc/sudoers 文件的语法相对复杂，详细说明请参见其手册 m an sudoers，下面做简单说明：</p>
+<p>/etc/sudoers 中的特殊字符和保留字：</p>
+<img alt="../_images/sudoersconfig.png" src="../_images/sudoersconfig.png" />
+<p>/etc/sudoers 的组成部分：</p>
+<p>1(别名定义部分：包括 User_Alias, Host_Alias, Runas_Alias, Cmnd_Alias</p>
+<p>2)配置选项部分：由De faults 设置</p>
+<p>3)权限分配部分：这是整个配置文件的核心部分，其格式为：</p>
+<img alt="../_images/sudoersconfig2.png" src="../_images/sudoersconfig2.png" />
+<p>说明：</p>
+<blockquote>
+<div><ul class="simple">
+<li>在 Cmnd 部分之前可以使用 NOPASSWD: 参数，表示不用输入密码即可执行 Cm nd</li>
+<li>(Runas) 部分可以省略，省略时表示 (root) ，即表示仅能切换为 root 用户身份</li>
+<li>四个部分均可设置多个项目，每个项目用逗号间隔</li>
+<li>四个部分均可使用别名定义来简化配置，即用 User_Alias 定义用户别名、用 Host_Alias 定义主机别名、用 Runas_Alias定义切换用户别名、用 Cmnd_Alias 定义命令别名。别名必须使用大些字母。这些别名语句的格式为：</li>
+</ul>
+</div></blockquote>
+<img alt="../_images/alias.png" src="../_images/alias.png" />
+<p>下面给出一些配置片段：</p>
+<img alt="../_images/configeg.png" src="../_images/configeg.png" />
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">配置命令</a><ul>
+<li><a class="reference internal" href="#id2">账户管理命令</a><ul>
+<li><a class="reference internal" href="#id3">组管理</a></li>
+<li><a class="reference internal" href="#id6">用户管理</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id15">口令管理</a></li>
+<li><a class="reference internal" href="#id18">用户状态切换</a><ul>
+<li><a class="reference internal" href="#su">su</a></li>
+<li><a class="reference internal" href="#sudo">sudo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="configfile.html"
+                        title="上一章">配置文件</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="../Linux_find/index.html"
+                        title="下一章">Linux查找|过滤命令</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_user/configcommand.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../Linux_find/index.html" title="Linux查找|过滤命令"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="configfile.html" title="配置文件"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux用户管理</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

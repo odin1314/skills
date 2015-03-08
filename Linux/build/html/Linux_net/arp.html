@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ARP篇 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux网络" href="index.html" />
+    <link rel="next" title="路由篇" href="route.html" />
+    <link rel="prev" title="IP篇" href="ip.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="route.html" title="路由篇"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="ip.html" title="IP篇"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux网络</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="arp">
+<h1>ARP篇<a class="headerlink" href="#arp" title="永久链接至标题">¶</a></h1>
+<div class="section" id="linux-arp">
+<h2>Linux 查看arp表项<a class="headerlink" href="#linux-arp" title="永久链接至标题">¶</a></h2>
+<p>1)arp -a (显示结果比较慢)</p>
+<p>2)arp -n</p>
+<p>3)ip neigh show (显示的结果较为详细)</p>
+</div>
+<div class="section" id="linux-ndp">
+<h2>Linux 查看NDP<a class="headerlink" href="#linux-ndp" title="永久链接至标题">¶</a></h2>
+<p>1)ip -6 neigh show</p>
+</div>
+<div class="section" id="id1">
+<h2>Linux 删除arp表项<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>1)ifconfig eth0 down;ifconfig eth0 up</p>
+<p>2)ip neigh delete 1.1.1.1 dev eth0</p>
+<p>3)arp -d 10.5.68.1</p>
+</div>
+<div class="section" id="id2">
+<h2>ARP扫描<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>ARP扫描（ARP请求风暴）</p>
+<p>通讯模式（可能）：</p>
+<p>请求 -&gt; 请求 -&gt; 请求 -&gt; 请求 -&gt; 请求 -&gt; 请求 -&gt; 应答 -&gt; 请求 -&gt; 请求 -&gt; 请求...</p>
+<p>描述：</p>
+<p>网络中出现大量ARP请求广播包，几乎都是对网段内的所有主机进行扫描。大量的ARP请求广播可能会占用网络带宽资源；ARP扫描一般为ARP攻击的前奏。</p>
+<p>出现原因（可能）：</p>
+<p><a href="#id3"><span class="problematic" id="id4">*</span></a>病毒程序，侦听程序，扫描程序。</p>
+<p><a href="#id5"><span class="problematic" id="id6">*</span></a>来自和交换机相连的其它主机。</p>
+</div>
+<div class="section" id="id7">
+<h2>ARP欺骗防护<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p>1、静态绑定</p>
+<p>双向绑定</p>
+<p>2、使用ARP防护软件</p>
+<p>3、定期发送合法的arp应答</p>
+<p>ARP欺骗和攻击问题，是企业网络的心腹大患。关于这个问题的讨论已经很深入了，
+对ARP攻击的机理了解的很透彻，各种防范措施也层出不穷。</p>
+<p>但问题是，现在真正摆脱ARP问题困扰了吗？从用户那里了解到，虽然尝试过各种方
+法，但这个问题并没有根本解决。原因就在于，目前很多种ARP防范措施，一是解决
+措施的防范能力有限，并不是最根本的办法。二是对网络管理约束很大，不方便不实
+用，不具备可操作性。三是某些措施对网络传输的效能有损失，网速变慢，带宽浪费
+，也不可取。</p>
+<p>本节通过具体分析一下普遍流行的四种防范ARP措施，去了解为什么ARP问题始终
+不能根治。</p>
+<p>上篇：四种常见防范ARP措施的分析</p>
+<p>1、双绑措施</p>
+<p>双绑是在路由器和终端上都进行IP-MAC绑定的措施，它可以对ARP欺骗的两边，伪
+造网关和截获数据，都具有约束的作用。这是从ARP欺骗原理上进行的防范措施，也
+是最普遍应用的办法。它对付最普通的ARP欺骗是有效的。</p>
+<p>但双绑的缺陷在于3点：</p>
+<p>1)在终端上进行的静态绑定，很容易被升级的ARP攻击所捣毁，病毒的一个ARP–d命令，就可以使静态绑定完全失效。</p>
+<p>2)在路由器上做IP-MAC表的绑定工作，费时费力，是一项繁琐的维护工作。换个网卡或更换IP，都需要重新配置路由。对于流动性电脑，这个需要随时进行的绑定工作，是网络维护的巨大负担，网管员几乎无法完成。</p>
+<p>3)双绑只是让网络的两端电脑和路由不接收相关ARP信息，但是大量的ARP攻击数据还是能发出，还要在内网传输，大幅降低内网传输效率，依然会出现问题。</p>
+<p>因此，虽然双绑曾经是ARP防范的基础措施，但因为防范能力有限，管理太麻烦，现在它的效果越来越有限了。</p>
+<p>2、ARP个人防火墙</p>
+<p>在一些杀毒软件中加入了ARP个人防火墙的功能，它是通过在终端电脑上对网关进行
+绑定，保证不受网络中假网关的影响，从而保护自身数据不被窃取的措施。ARP防火
+墙使用范围很广，有很多人以为有了防火墙，ARP攻击就不构成威胁了，其实完全不
+是那么回事。</p>
+<p>ARP个人防火墙也有很大缺陷：</p>
+<p>1)它不能保证绑定的网关一定是正确的。如果一个网络中已经发生了ARP欺骗，有
+人在伪造网关，那么，ARP个人防火墙上来就会绑定这个错误的网关，这是具有极大
+风险的。即使配置中不默认而发出提示，缺乏网络知识的用户恐怕也无所适从。</p>
+<p>2)ARP是网络中的问题，ARP既能伪造网关，也能截获数据，是个“双头怪”。在
+个人终端上做ARP防范，而不管网关那端如何，这本身就不是一个完整的办法。AR
+P个人防火墙起到的作用，就是防止自己的数据不会被盗取，而整个网络的问题，如
+掉线、卡滞等，ARP个人防火墙是无能为力的。</p>
+<p>因此，ARP个人防火墙并没有提供可靠的保证。最重要的是，它是跟网络稳定无关的
+措施，它是个人的，不是网络的。</p>
+<p>3、VLAN和交换机端口绑定</p>
+<p>通过划分VLAN和交换机端口绑定，以图防范ARP，也是常用的防范方法。做法是细
+致地划分VLAN，减小广播域的范围，使ARP在小范围内起作用，而不至于发生大面
+积影响。同时，一些网管交换机具有MAC地址学习的功能，学习完成后，再关闭这
+个功能，就可以把对应的MAC和端口进行绑定，避免了病毒利用ARP攻击篡改自身
+地址。也就是说，把ARP攻击中被截获数据的风险解除了。这种方法确实能起到一定
+的作用。</p>
+<p>不过，VLAN和交换机端口绑定的问题在于：</p>
+<p>1)、没有对网关的任何保护，不管如何细分VLAN，网关一旦被攻击，照样会造成全
+网上网的掉线和瘫痪。</p>
+<p>2)把每一台电脑都牢牢地固定在一个交换机端口上，这种管理太死板了。这根本不
+适合移动终端的使用，从办公室到会议室，这台电脑恐怕就无法上网了。在无线应用
+下，又怎么办呢？还是需要其他的办法。</p>
+<p>3)实施交换机端口绑定，必定要全部采用高级的网管交换机、三层交换机，整个交
+换网络的造价大大提高。</p>
+<p>因为交换网络本身就是无条件支持ARP操作的，就是它本身的漏洞造成了ARP攻击
+的可能，它上面的管理手段不是针对ARP的。因此，在现有的交换网络上实施ARP
+防范措施，属于以子之矛攻子之盾。而且操作维护复杂，基本上是个费力不讨好的事
+情。</p>
+<p>4、PPPoE</p>
+<p>网络下面给每一个用户分配一个帐号、密码，上网时必须通过PPPoE认证，这种方
+法也是防范ARP措施的一种。PPPoE拨号方式对封包进行了二次封装，使其具备了
+不受ARP欺骗影响的使用效果，很多人认为找到了解决ARP问题的终极方案。</p>
+<p>问题主要集中在效率和实用性上面：</p>
+<p>1)PPPoE需要对封包进行二次封装，在接入设备上再解封装，必然降低了网络传输
+效率，造成了带宽资源的浪费，要知道在路由等设备上添加PPPoE Server的处理效
+能和电信接入商的PPPoE Server可不是一个数量级的。</p>
+<p>2)PPPoE方式下局域网间无法互访，在很多网络都有局域网内部的域控服务器、D
+NS服务器、邮件服务器、OA系统、资料共享、打印共享等等，需要局域网间相互通
+信的需求，而PPPoE方式使这一切都无法使用，是无法被接受的。</p>
+<p>3)不使用PPPoE，在进行内网访问时，ARP的问题依然存在，什么都没有解决，网
+络的稳定性还是不行。</p>
+<p>因此，PPPoE在技术上属于避开底层协议连接，眼不见心不烦，通过牺牲网络效率
+换取网络稳定。最不能接受的，就是网络只能上网用，内部其他的共享就不能在PPP
+oE下进行了。</p>
+<p>通过对以上四种普遍的ARP防范方法的分析，我们可以看出，现有ARP防范措施都
+存在问题。这也就是ARP即使研究很久很透，但依然在实践中无法彻底解决的原因所
+在了。</p>
+<p>下篇：免疫网络是解决ARP最根本的办法</p>
+<p>道高一尺魔高一丈，网络问题必定需要网络的方法去解决。目前，欣全向推广的免疫
+网络就是彻底解决ARP问题的最实际的方法。</p>
+<p>从技术原理上，彻底解决ARP欺骗和攻击，要有三个技术要点。</p>
+<p>1)终端对网关的绑定要坚实可靠，这个绑定能够抵制被病毒捣毁。</p>
+<p>2)接入路由器或网关要对下面终端IP-MAC的识别始终保证唯一准确。</p>
+<p>3)网络内要有一个最可依赖的机构，提供对网关IP-MAC最强大的保护。它既能够分
+发正确的网关信息，又能够对出现的假网关信息立即封杀。</p>
+<p>免疫网络在这三个问题上，都有专门的技术解决手段，而且这些技术都是厂家欣全向
+的技术专利。下面我们会详细说明。现在，我们要先做一个免疫网络结构和实施的简
+单介绍。</p>
+<p>免疫网络就是在现有的路由器、交换机、网卡、网线构成的普通交换网络基础上，加
+入一套安全和管理的解决方案。这样一来，在普通的网络通信中，就融合进了安全和
+管理的机制，保证了在网络通信过程中具有了安全管控的能力，堵上了普通网络对安
+全从不设防的先天漏洞。</p>
+<p>免疫网络的结构</p>
+<p>实施一个免疫网络不是一个很复杂的事，代价并不大。它要做的仅仅是用免疫墙路由
+器或免疫网关，替换掉现有的宽带接入设备。在免疫墙路由器下，需要自备一台服务
+器24小时运行免疫运营中心。免疫网关不需要，已自带服务器。这就是方案的所需
+要的硬件调整措施。</p>
+<p>软性的网络调整是IP规划、分组策略、终端自动安装上网驱动等配置和安装工作，以
+保证整个的安全管理功能有效地运行。其实这部分工作和网管员对网络日常的管理没
+有太大区别。</p>
+<p>免疫网络的监控中心</p>
+<p>免疫网络具有强大的网络基础安全和管理功能，对ARP的防范仅是其十分之一不到的
+能力。但本文谈的是ARP问题，所以我们需要回过头来，具体地解释免疫网络对AR
+P欺骗和攻击防范的机理。至于免疫网络更多的强大，可以后续研究。</p>
+<p>前述治理ARP问题的三个技术要点，终端绑定、网关、机构三个环节，免疫网络分别
+采用了专门的技术手段。</p>
+<p>1)终端绑定采用了看守式绑定技术。免疫网络需要每一台终端自动安装驱动，不安
+装或卸载就不能上网。在驱动中的看守式绑定，就是把正确的网关信息存贮在非公开
+的位置加以保护，任何对网关信息的更改，由于看守程序的严密监控，都是不能成功
+的，这就完成了对终端绑定牢固可靠的要求。</p>
+<p>2)免疫墙路由器或免疫网关的ARP先天免疫技术。在NAT转发过程中，由于加入了
+特殊的机制，免疫墙路由器根本不理会任何对终端IP-MAC的ARP申告，也就是说，
+谁都无法欺骗网关。与其他路由器不同，免疫墙路由器没有使用IP-MAC的列表进行
+工作，当然也不需要繁琐的路由器IP-MAC表绑定和维护操作。先天免疫，就是不用
+管也具有这个能力。</p>
+<p>3)保证网关IP-MAC始终正确的机构，在免疫网络中是一套安全机制。首先，它能够
+做到把从路由器中取到的真实网关信息，分发到每一个网内终端，而安装有驱动的终
+端，只接受这样的信息，其他信息不能接受，保证了网关的唯一正确性。其次，在每
+一台终端，免疫驱动都会拦截病毒发出的错误网关传播，不使其流窜到网络内</p>
+</div>
+<div class="section" id="dr-arp">
+<h2>负载均衡三角传输(DR)模式之ARP禁止响应<a class="headerlink" href="#dr-arp" title="永久链接至标题">¶</a></h2>
+<p>echo &#8220;1&#8221; &gt;/proc/sys/net/ipv4/conf/lo/arp_ignore</p>
+<p>echo &#8220;2&#8221; &gt;/proc/sys/net/ipv4/conf/lo/arp_announce</p>
+<p>echo &#8220;1&#8221; &gt;/proc/sys/net/ipv4/conf/all/arp_ignore</p>
+<p>echo &#8220;2&#8221; &gt;/proc/sys/net/ipv4/conf/all/arp_announce</p>
+<p>/sbin/route add -host $VIP dev lo:0</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ARP篇</a><ul>
+<li><a class="reference internal" href="#linux-arp">Linux 查看arp表项</a></li>
+<li><a class="reference internal" href="#linux-ndp">Linux 查看NDP</a></li>
+<li><a class="reference internal" href="#id1">Linux 删除arp表项</a></li>
+<li><a class="reference internal" href="#id2">ARP扫描</a></li>
+<li><a class="reference internal" href="#id7">ARP欺骗防护</a></li>
+<li><a class="reference internal" href="#dr-arp">负载均衡三角传输(DR)模式之ARP禁止响应</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="ip.html"
+                        title="上一章">IP篇</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="route.html"
+                        title="下一章">路由篇</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_net/arp.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="route.html" title="路由篇"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="ip.html" title="IP篇"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux网络</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

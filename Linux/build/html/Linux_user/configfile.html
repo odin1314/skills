@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>配置文件 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux用户管理" href="index.html" />
+    <link rel="next" title="配置命令" href="configcommand.html" />
+    <link rel="prev" title="概述" href="introduce.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="configcommand.html" title="配置命令"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="introduce.html" title="概述"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux用户管理</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>配置文件<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>Linux下的账户系统文件主要有</p>
+<p>1、用户信息文件：/etc/passwd</p>
+<p>2、用户密码文件：/etc/shadow</p>
+<p>3、用户组文件：/etc/group</p>
+<p>4、用户组密码文件：/etc/gshadow</p>
+<dl class="docutils">
+<dt>5、用户配置文件</dt>
+<dd><ul class="first last simple">
+<li>/etc/login.defs</li>
+<li>/etc/default/useradd</li>
+</ul>
+</dd>
+</dl>
+<p>6、新用户信息文件：/etc/skel</p>
+<p>7、用户登录欢迎信息文件：/etc/motd、/etc/issue</p>
+<div class="section" id="passwd">
+<h2>passwd<a class="headerlink" href="#passwd" title="永久链接至标题">¶</a></h2>
+<p>/etc/passwd 文件中每行定义一个用户账号，一行中又划分为多个字段定义用户账号的不同属性，各字段间用“:”分隔。例如：</p>
+<img alt="../_images/passwd.png" src="../_images/passwd.png" />
+<p>下表描述了这些字段的意义。</p>
+<img alt="../_images/table.png" src="../_images/table.png" />
+</div>
+<div class="section" id="shadow">
+<h2>shadow<a class="headerlink" href="#shadow" title="永久链接至标题">¶</a></h2>
+<p>/etc/shadow文件是/etc/passwd 的影子文件，这个文件并不由/etc/passwd 而产生的，这两个文件是应该是对应互补的；
+shadow内容包括用户及被加密的密码以及其它/etc/passwd 不能包括的信息，比如用户的有效期限等；这个文件只有root权限可以读取和操作.</p>
+<p>/etc/passwd文件对任何用户均可读，为了增加系统的安全性，用户的口令通常用shadow passwords保护。/etc
+/shadow只对root用户可读。在安装系统时，会询问用户是否启用shadow passwords功能。在安装好系统后也可
+以用pwconv命令和pwunconv命令来启动或取消shadow passwords的保护。</p>
+<p>目前主流Linux系统 默认都使用shadow passwords保护。经过shadow passwords保护的账户口令和相关设置信息保存在
+/etc/shadow文件里。shadow文件的内容形式如下：</p>
+<img alt="../_images/shadow.png" src="../_images/shadow.png" />
+<p>其中各字段的意义如表所示。</p>
+<img alt="../_images/shadowtable.png" src="../_images/shadowtable.png" />
+<p>这里需要注意第二个字段的不同内容所代表的含义</p>
+<p>1、内容&#8217;!&#8217; 表示这个账号不能用来登录</p>
+<p>2、内容为&#8217;*&#8217; 表示这个账号不能用来登录</p>
+<p>3、内容为 &#8216;!$&#8217;开头的一段hash表示 账户被锁定</p>
+<p>4、内容为 &#8216;!!&#8217; 表示这个账号目前没有密码，也不能用来登录</p>
+<p>通过观察shadow文件第二个字段的内容，我们可以判断系统的加密类型</p>
+<p>如果以$1开头的hash 表示MD5密码</p>
+<p>如果以$5开头的表示 SHA-256加密</p>
+<p>如果以$6开头的表示 SHA-512加密</p>
+<p>如果以$2开头的表示 blowfish加密</p>
+</div>
+<div class="section" id="group">
+<h2>group<a class="headerlink" href="#group" title="永久链接至标题">¶</a></h2>
+<p>将用户分组是Linux中对用户进行管理及控制访问权限的一种手段。每个用户都属于某一个组；一个组中可以有多个用
+户，一个用户也可以属于不同的组。当一个用户同时是多个组的成员时，在/etc/passwd文件中记录的是用户所属的主
+组，也就是登录时所属的默认组，而其他组称为附加组。用户要访问附加组的文件时，必须首先使用newgrp命令使自
+己成为所要访问的组的成员。组的所有属性都存放在/etc/group文件中。/etc/group文件对任何用户均可读。下面是
+一个/etc/group文件的例子：</p>
+<img alt="../_images/group.png" src="../_images/group.png" />
+<p>和/etc/passwd文件类似，其中每一行记录了一个组的信息。每行包括四个字段，不同字段之间用冒号隔开。其中各字
+段的内容说明见下表。</p>
+<img alt="../_images/grouptable.png" src="../_images/grouptable.png" />
+</div>
+<div class="section" id="gshadow">
+<h2>gshadow<a class="headerlink" href="#gshadow" title="永久链接至标题">¶</a></h2>
+<p>/etc/gshadow文件用于定义用户组口令、组管理员等信息，该文件只有root用户可以读取。下面是一个/etc
+/gshadow文件的例子：</p>
+<img alt="../_images/groupshadow.png" src="../_images/groupshadow.png" />
+<p>和/etc/group文件类似，其中每一行记录了一个组的信息。每行包括四个字段，不同字段之间用冒号隔开。其中各字段
+的内容说明见下表。</p>
+<img alt="../_images/gshaowtable.png" src="../_images/gshaowtable.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">配置文件</a><ul>
+<li><a class="reference internal" href="#passwd">passwd</a></li>
+<li><a class="reference internal" href="#shadow">shadow</a></li>
+<li><a class="reference internal" href="#group">group</a></li>
+<li><a class="reference internal" href="#gshadow">gshadow</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="introduce.html"
+                        title="上一章">概述</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="configcommand.html"
+                        title="下一章">配置命令</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_user/configfile.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="configcommand.html" title="配置命令"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="introduce.html" title="概述"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux用户管理</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

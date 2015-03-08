@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Linux 基本功 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="#" />
+    <link rel="next" title="Linux网络" href="Linux_net/index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="Linux_net/index.html" title="Linux网络"
+             accesskey="N">下一页</a> |</li>
+        <li><a href="#">Linux 1.0 文档</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="linux">
+<span id="index"></span><h1>Linux 基本功<a class="headerlink" href="#linux" title="永久链接至标题">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">作者:</th><td class="field-body">闻健 <a class="reference external" href="mailto:wenjianxue2009&#37;&#52;&#48;live&#46;cn">wenjianxue2009<span>&#64;</span>live<span>&#46;</span>cn</a></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="id1">
+<h2>文章内容:<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Linux_net/index.html">Linux网络</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Linux_net/ip.html">IP篇</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/ip.html#id1">配置IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/ip.html#id2">配置主机名</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/ip.html#dns">配置DNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/ip.html#id3">启停网络接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/ip.html#id4">查看网络参数配置</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_net/arp.html">ARP篇</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/arp.html#linux-arp">Linux 查看arp表项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/arp.html#linux-ndp">Linux 查看NDP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/arp.html#id1">Linux 删除arp表项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/arp.html#id2">ARP扫描</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/arp.html#id7">ARP欺骗防护</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/arp.html#dr-arp">负载均衡三角传输(DR)模式之ARP禁止响应</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_net/route.html">路由篇</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/route.html#linux-ipv4">查看Linux 内核路由(ipv4)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/route.html#linux-ipv6">查看Linux 内核路由(ipv6)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/route.html#ipv4">添加路由(ipv4)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/route.html#ipv6">添加路由(ipv6)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/route.html#id2">删除路由(ipv4)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/route.html#id3">删除路由(ipv6)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/route.html#id4">刷新路由表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/route.html#id5">三种路由类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_net/route.html#id6">设置路由转发</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Linux_user/index.html">Linux用户管理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Linux_user/introduce.html">概述</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/introduce.html#id2">用户类型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/introduce.html#id3">伪用户特点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/introduce.html#uid">UID的理解</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/introduce.html#id4">用户组</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/introduce.html#gid">GID的理解</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_user/configfile.html">配置文件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/configfile.html#passwd">passwd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/configfile.html#shadow">shadow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/configfile.html#group">group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/configfile.html#gshadow">gshadow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_user/configcommand.html">配置命令</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/configcommand.html#id2">账户管理命令</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Linux_user/configcommand.html#id3">组管理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_user/configcommand.html#id6">用户管理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/configcommand.html#id15">口令管理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_user/configcommand.html#id18">用户状态切换</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Linux_user/configcommand.html#su">su</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_user/configcommand.html#sudo">sudo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Linux_log/index.html">Linux Log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Linux_log/syslog.html">syslog</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_log/syslog.html#id1">日志系统</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_log/syslog.html#id2">查看日志</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_log/logrotate.html">日志回滚</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Linux_security/index.html">Linux 安全</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Linux_security/info.html">Linux 敏感信息获取</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_security/ports.html">common ports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_security/download.html">download</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_security/Security_Hardening.html">Linux 安全加固思路</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#id1">物理系统的安全性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#id2">打补丁补漏洞</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#id3">主机对外通信安全性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#id4">系统账户密码安全性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#bash">bash安全加固</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#id7">核查进程运行的权限</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#id8">敏感文件核查</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#id9">日志安全性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#id10">备份</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#id11">维护主机的安全性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_security/Security_Hardening.html#portspoof">主动防御(portspoof)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Linux_security/Security_Hardening.html#id12">简介</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_security/Security_Hardening.html#id13">安装与配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_security/Security_Hardening.html#id14">思考</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Linux_vim/index.html">Linux VIM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Linux_vim/install.html">安装配置篇</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_vim/install.html#vim">vim的安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_vim/install.html#id2">vim插件管理器安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_vim/install.html#id3">vim的配置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Linux_vim/install.html#id4">语法高亮</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_vim/install.html#id5">项目视图</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_vim/install.html#id6">语法提示和自动完成</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_vim/install.html#faq">FAQ</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_vim/command.html">系统篇</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_vim/command.html#vi">Vi简介</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_vim/command.html#id2">进入Vi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_vim/command.html#vi-3">Vi 的3种运行模式</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Linux_vim/command.html#id3">普通模式下的操作</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_vim/command.html#id4">命令行模式下的操作</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_vim/tips.html">技巧篇</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_vim/tips.html#id2">常用技巧</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Linux_ssh/index.html">大话SSH</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Linux_ssh/config.html">ssh 安全配置</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Linux_pro_mana/index.html">Linux 进程管理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Linux_pro_mana/process.html">进程与作业</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_pro_mana/process.html#id2">进程概述</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#id3">进程的概念</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#linux">Linux中的进程</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#id4">进程的类型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#id5">进程的启动方式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#id6">进程的属性</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#id7">进程优先级</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#linux5">linux上进程有5种状态</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#id8">父进程和子进程</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#id9">守护进程简介</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="Linux_pro_mana/process.html#id10">什么是守护进程</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Linux_pro_mana/process.html#id11">网络守护进程</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Linux_pro_mana/process.html#id12">超级守护进程</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Linux_pro_mana/process.html#id13">守护进程的运行方式</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Linux_pro_mana/process.html#id14">查看守护进程树</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Linux_pro_mana/process.html#id15">守护进程的启用和停止</a></li>
+<li class="toctree-l5"><a class="reference internal" href="Linux_pro_mana/process.html#id16">管理开机时守护进程的的启用状态</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_pro_mana/process.html#id17">作业控制</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#id18">什么是作业控制</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#id19">实施作业控制的常用命令</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#id20">作业控制举例</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/process.html#job">断了远程连接后继续执行后台job</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_pro_mana/tools.html">工具篇</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_pro_mana/tools.html#ps">ps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_pro_mana/tools.html#top">top</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_pro_mana/tools.html#pgrep">pgrep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_pro_mana/tools.html#lsof">lsof</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_pro_mana/tools.html#killkillall">kill与killall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_pro_mana/tools.html#psacct">psacct</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/tools.html#lastcomm">lastcomm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/tools.html#sa">sa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/tools.html#ac">ac</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_pro_mana/tools.html#sysstat">sysstat</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/tools.html#id6">安装配置sysstat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/tools.html#sar">sar</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/tools.html#iostat">iostat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Linux_pro_mana/tools.html#mpstat">mpstat</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Linux_find/index.html">Linux查找|过滤命令</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Linux_find/file.html">文件查找</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_find/file.html#find">find</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_find/file.html#locate">Locate</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Linux_find/content.html">内容查找与过滤</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Linux_find/content.html#cut">cut</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_find/content.html#grep">grep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_find/content.html#tr">tr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Linux_find/content.html#other">other</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Linux 基本功</a><ul>
+<li><a class="reference internal" href="#id1">文章内容:</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="Linux_net/index.html"
+                        title="下一章">Linux网络</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="Linux_net/index.html" title="Linux网络"
+             >下一页</a> |</li>
+        <li><a href="#">Linux 1.0 文档</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

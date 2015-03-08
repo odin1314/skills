@@ -1,0 +1,562 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>工具篇 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux 进程管理" href="index.html" />
+    <link rel="next" title="&lt;no title&gt;" href="../Linux_file_priv/index.html" />
+    <link rel="prev" title="进程与作业" href="process.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../Linux_file_priv/index.html" title="&lt;no title&gt;"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="process.html" title="进程与作业"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux 进程管理</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>工具篇<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>工欲善其事必先利其器，go！</p>
+<div class="section" id="ps">
+<h2>ps<a class="headerlink" href="#ps" title="永久链接至标题">¶</a></h2>
+<p>ps 为我们提供了进程的一次性的查看，它所提供的查看结果并不动态连续的；如果想对进
+程时间监控，应该用 top 工具；</p>
+<p>使用ps，我们：</p>
+<p>—可以确定有哪些进程正在执行和执行的状态</p>
+<p>—进程是否结束、进程有没有僵死</p>
+<p>—哪些进程占用了过多的系统资源等</p>
+<p>ps默认显示当前终端进程</p>
+<p>-a 包括所有终端的进程</p>
+<p>-x 包括不属于终端的进程</p>
+<p>-u 打印进程所有者信息</p>
+<p>-f 选项显示进程的父进程</p>
+<p>-e 含义同-a</p>
+<p>-o 属性… 选项显示定制的信息：pid、comm、%cpu、%mem、state、tty、euser、ruser</p>
+<p>-H 显示树状结构，表示程序间的相互关系</p>
+<p>-c 列出程序时，显示每个程序真正的指令名称，而不包含路径，参数或常驻服务的标示。</p>
+<p>-u xxx 显示指定用户的进程信息</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-t<var>&lt;终端机编号&gt;</var></span></kbd></td>
+<td>指定终端机编号，并列出属于该终端机的程序的状况。</td></tr>
+</tbody>
+</table>
+<p>[<a class="reference external" href="mailto:wenjian&#37;&#52;&#48;r520-85">wenjian<span>&#64;</span>r520-85</a> ~]$ ps aux |grep httpd</p>
+<p>USER     PID    %CPU %MEM  VSZ   RSS  tty     STAT  TIME         COMMAND</p>
+<p>wenjian  10383  0.0  0.0   4624  1628 ?        Ss   Aug01   0:05 httpd -k start</p>
+<p>wenjian  10385  0.0  0.0   4768  1800 ?        S    Aug01   0:00 httpd -k start</p>
+<p>wenjian  10386  0.0  0.0   4768  1796 ?        S    Aug01   0:00 httpd -k start</p>
+<p>wenjian  10388  0.0  0.0   4768  1808 ?        S    Aug01   0:00 httpd -k start</p>
+<p>wenjian  11706  0.0  0.0   4768  1804 ?        S    Aug01   0:00 httpd -k start</p>
+<p>wenjian  11730  0.0  0.0   4768  1808 ?        S    Aug01   0:00 httpd -k start</p>
+<p>wenjian  11741  0.0  0.0   4768  1800 ?        S    Aug01   0:00 httpd -k start</p>
+<p>wenjian  22231  0.0  0.0   4768  1804 ?        S    Aug01   0:00 httpd -k start</p>
+<p>wenjian  33806  0.0  0.0   4768  1764 ?        S    09:10   0:00 httpd -k start</p>
+<p>wenjian  43835  0.0  0.0   4628  1372 ?        S    09:22   0:00 httpd -k start</p>
+<p>wenjian  43926  0.0  0.0   4768  1788 ?        S    Aug01   0:00 httpd -k start</p>
+<p>wenjian  45652  0.0  0.0 103240   876 pts/0    S+   09:24   0:00 grep httpd</p>
+<p>USER域指明了是哪个用户启动了这个命令</p>
+<p>PID表示进程号</p>
+<p>%CPU 表示进程占用了多少CPU</p>
+<p>%MEM 表示进程占用了多少内存</p>
+<p>VSZ表示如果一个程序完全驻留在内存的话需要占用多少内存空间</p>
+<p>RSS表示目前进程实际占用的内存大小</p>
+<p>TTY表示进程从哪一个终端启动，不是从终端启动的进程则显示为 ?</p>
+<p>STAT表示当前进程的状态</p>
+<blockquote>
+<div><ul class="simple">
+<li>D 不可中断 Uninterruptible（usually IO）</li>
+<li>R 正在运行，或在队列中的进程</li>
+<li>S 处于休眠状态</li>
+<li>T 停止或被追踪</li>
+<li>Z 僵尸进程</li>
+<li>W 进入内存交换（从内核2.6开始无效）</li>
+<li>X   死掉的进程</li>
+<li>&lt; 高优先级</li>
+<li>n   低优先级</li>
+<li>s   包含子进程</li>
+<li><ul class="first">
+<li>位于后台的进程组</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="top">
+<h2>top<a class="headerlink" href="#top" title="永久链接至标题">¶</a></h2>
+<p><strong>1、top参数详解：</strong></p>
+<p>top - 10:07:59 up 60 days, 18:02,  3 users,  load average: 1.58, 1.84, 1.30</p>
+<p>Tasks: 517 total,   1 running, 516 sleeping,   0 stopped,   0 zombie</p>
+<p>Cpu(s):  6.2%us,  0.3%sy,  0.0%ni, 93.5%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st</p>
+<p>Mem:  32830828k total, 24500432k used,  8330396k free,   307940k buffers</p>
+<p>Swap: 35061752k total,    12516k used, 35049236k free,  6253084k cached</p>
+<p>PID USER        PR  NI  VIRT    RES   SHR   S  %CPU  %MEM    TIME+  COMMAND</p>
+<p>11517 radius    20   0  9228m   5.2g  10m   S  93.3  16.5   1908:32 /home/radius/jdk1.7.0_25/bin/java -Dserver=MemoryDB -Dserver.home=/home/radius/memdb2_wangxl -Ddb.poolname=</p>
+<p>11140 radius    20   0  8969m   5.2g   10m  S  47.8  16.5   1909:07 /home/radius/jdk1.7.0_25/bin/java -Dserver=MemoryDB -Dserver.home=/home/radius/memdb_wangxl -Ddb.poolname=m</p>
+<p>36802 radius    20   0  1396m   45m   10m   S  1.6   0.1    105:36.43 radius_3rj 10 d</p>
+<p>26440 radius    20   0  1228m   995m   672  S  1.3   3.1    293:47.93 ./lm_rj2 -xx -d</p>
+<p>41554 wenjian   20   0  9056   1408   1008  S  1.3   0.0   65:24.49 x_agent -c x_agent.ini -l 2 -e -d 2</p>
+<p><strong>统计信息区</strong></p>
+<p>前五行是系统整体的统计信息。第一行是任务队列信息，同 uptime 命令的执行结果。其内容如下</p>
+<p>10:07:59  当前时间</p>
+<p>up  60 days, 18:02 系统运行时间，格式为时:分</p>
+<p>3 user 当前登录用户数</p>
+<p>load average: 1.58, 1.84, 1.30 系统负载，即任务队列的平均长度。</p>
+<p>三个数值分别为 1分钟、5分钟、15分钟前到现在的平均值。</p>
+<p>第二、三行为进程和CPU的信息。当有多个CPU时，这些内容可能会超过两行。内容如下：</p>
+<p>Tasks: 29 total 进程总数</p>
+<p>1 running 正在运行的进程数</p>
+<p>28 sleeping 睡眠的进程数</p>
+<p>0 stopped 停止的进程数</p>
+<p>0 zombie 僵尸进程数</p>
+<p>Cpu(s): 0.3% us 用户空间占用CPU百分比</p>
+<p>1.0% sy 内核空间占用CPU百分比</p>
+<p>0.0% ni 用户进程空间内改变过优先级的进程占用CPU百分比</p>
+<p>98.7% id 空闲CPU百分比</p>
+<p>0.0% wa 等待输入输出的CPU时间百分比</p>
+<p>0.0% hi</p>
+<p>0.0% si</p>
+<p>最后两行为内存信息。内容如下：</p>
+<p>Mem: 191272k total 物理内存总量</p>
+<p>173656k used 使用的物理内存总量</p>
+<p>17616k free 空闲内存总量</p>
+<p>22052k buffers 用作内核缓存的内存量</p>
+<p>Swap: 192772k total 交换区总量</p>
+<p>0k used 使用的交换区总量</p>
+<p>192772k free 空闲交换区总量</p>
+<p>123988k cached 缓冲的交换区总量。</p>
+<p>内存中的内容被换出到交换区，而后又被换入到内存，但使用过的交换区尚未被覆盖，</p>
+<p>该数值即为这些内容已存在于内存中的交换区的大小。</p>
+<p>相应的内存再次被换出时可不必再对交换区写入。</p>
+<p>PID 表示进程的进程号</p>
+<p>USER 表示进程的用户</p>
+<p>PR  表示进程的优先级</p>
+<p>NI nice值。负值表示高优先级，正值表示低优先级 (-19 - 20 )</p>
+<p>VIRT 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES</p>
+<p>RES 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA</p>
+<p>SWAP 进程使用的虚拟内存中，被换出的大小，单位kb。</p>
+<p>SHR 共享内存大小，单位kb</p>
+<p>%CPU 上次更新到现在的CPU时间占用百分比</p>
+<p>%MEM 进程使用的物理内存百分比</p>
+<p>TIME+ 进程使用的CPU时间总计，单位1/100秒</p>
+<p>COMMAND 表示启动进程的命令</p>
+<p><strong>2、top中快捷键</strong></p>
+<p>&gt; 向后翻页</p>
+<p>&lt;向前翻页</p>
+<p>k 干掉一个进程，按下k命令之后，输入要kill的进程pid回车即可</p>
+<p>h 查看帮助</p>
+<p>r 调整进程优先级 ，输入完命令之后按提示操作即可</p>
+<p>s 改变刷新的时间间隔 ，输入完命令之后按提示操作即可</p>
+<p>r 调整一个进程的优先级</p>
+<p>q 退出top</p>
+<p>•t 显示摘要信息开关.</p>
+<p>•m 显示内存信息开关.</p>
+<p>•A 分类显示系统不同资源的使用，有助于快速识别系统中资源消耗多的任务</p>
+<p>z 彩色/黑白显示开关</p>
+<p>u 查看指定 按下u命令之后，界面提示输入用户名，输入即可</p>
+<p>W 将当前的设置写入~/.toprc</p>
+<hr class="docutils" />
+<p>一个进程状态后面&lt; 表示优先级高</p>
+<p>N表示优先级低</p>
+<p><strong>3、top 常用参数</strong></p>
+<p>-u 只显示 指定用户的进程</p>
+<p>-b批处理模式，可以使用这个参数将top输出重定向到文件中</p>
+<p>-n top隔多久执行一次，一般和b结合用</p>
+<p>-p pid 监控指定pid的进程</p>
+<p>-u 监视指定用户的进程信息</p>
+</div>
+<div class="section" id="pgrep">
+<h2>pgrep<a class="headerlink" href="#pgrep" title="永久链接至标题">¶</a></h2>
+<p>1、pgrep -U wenjian -l</p>
+<p>显示出所有用户名为wenjian的进程ID和对应的daemon 程序</p>
+<p>2、pgrep -l httpd</p>
+<p>显示httpd的程序(包括主进程和子进程)的pid</p>
+<p>3、pgrep -lo httpd</p>
+<p>列出最早启动的apache进程ID，也就是主进程的PID</p>
+<p>-l表示显示pid对应的程序名</p>
+<p>4、 pgrep -f httpd 和 pgrep  httpd效果一样</p>
+<p>f参数可以匹配command中的关键字</p>
+<p>5、pgrep -ln httpd</p>
+<blockquote>
+<div>列出最新启动的apache进程ID，-l 参数用来显示进程名称；</div></blockquote>
+</div>
+<div class="section" id="lsof">
+<h2>lsof<a class="headerlink" href="#lsof" title="永久链接至标题">¶</a></h2>
+<p>lsof（list open files） 是一个列出当前系统打开文件的工具。在linux环境下，任何事物都以文件的形式存在，通过文件不仅仅可以访问常规数据，还可以访问网络连接和硬件。</p>
+<p>在终端下输入lsof即可显示系统打开的文件，因为 lsof 需要访问核心内存和各种文件，所以必须以 root 用户的身份运行它才能够充分地发挥其功能。</p>
+<p>COMMAND    PID      USER   FD      TYPE     DEVICE     SIZE       NODE      NAME</p>
+<p>init       1         root  cwd      DIR       3,3       1024       2         /</p>
+<p>init       1         root  rtd      DIR       3,3       1024       2         /</p>
+<p>init       1         root  txt      REG       3,3       38432      1763452  /sbin/init</p>
+<p>init       1         root  mem      REG       3,3       106114     1091620  /lib/libdl-2.6.so</p>
+<p>init       1         root  mem      REG       3,3       7560696    1091614  /lib/libc-2.6.so</p>
+<p>init       1         root  mem      REG       3,3       79460      1091669  /lib/libselinux.so.1</p>
+<p>init       1         root  mem      REG       3,3       223280     1091668  /lib/libsepol.so.1</p>
+<p>init       1         root  mem      REG       3,3       564136     1091607  /lib/ld-2.6.so</p>
+<p>init       1         root  10u      FIFO      0,15                  1309     /dev/initctl</p>
+<p>每行显示一个打开的文件，若不指定条件默认将显示所有进程打开的所有文件。lsof输出各列信息的意义如下：</p>
+<p>COMMAND：进程的名称</p>
+<p>PID：进程标识符</p>
+<p>USER：进程所有者</p>
+<p>FD：文件描述符，应用程序通过文件描述符识别该文件。如cwd、txt等</p>
+<p>TYPE：文件类型，如DIR、REG等</p>
+<p>DEVICE：指定磁盘的名称</p>
+<p>SIZE：文件的大小</p>
+<p>NODE：索引节点（文件在磁盘上的标识）</p>
+<p>NAME：打开文件的确切名称</p>
+<p>其中FD 列中的文件描述符cwd 值表示应用程序的当前工作目录，这是该应用程序启动的目录，除非它本身对这个目录进行更改。</p>
+<p>txt 类型的文件是程序代码，如应用程序二进制文件本身或共享库，如上列表中显示的 /sbin/init程序</p>
+<p>其次数值表示应用程序的文件描述符，这是打开该文件时返回的一个整数。如上的最后一行文件/dev/initctl，其文件描述符为10</p>
+<p>u 表示该文件被打开并处于读取/写入模式，而不是只读 ? 或只写 (w) 模式。</p>
+<p>同时还有大写的W 表示该应用程序具有对整个文件的写锁.该文件描述符用于确保每次只能打开一个应用程序实例</p>
+<p>初始打开每个应用程序时，都具有三个文件描述符，从 0 到 2，分别表示标准输入、输出和错误流。所以大多数应用程序所打开的文件的 FD 都是从 3 开始</p>
+<p>与 FD 列相比，Type 列则比较直观。文件和目录分别称为 REG 和 DIR。而CHR 和 BLK，分别表示字符和块设备；或者 UNIX、FIFO 和 IPv4，分别表示 UNIX 域套接字、先进先出 (FIFO) 队列和网际协议 (IP) 套接字。</p>
+<p>lsof 常见的用法是查找应用程序打开的文件的名称和数目。可用于查找出某个特定应用程序将日志数据记录到何处，或者正在跟踪某个问题。例如，linux限制了进程能够打开文件的数目。通常这个数值很大，所以不会产生问题，并且在需要时，应用程序可以请求更大的值（直到某个上限）。如果你怀疑应用程序耗尽了文件描述符，那么可以使用 lsof 统计打开的文件数目，以进行验证。lsof语法格式是：</p>
+<p>lsof ［options］ filename</p>
+<p><strong>1、常用的参数列表：</strong></p>
+<img alt="../_images/lsof0.png" src="../_images/lsof0.png" />
+<img alt="../_images/lsof00.png" src="../_images/lsof00.png" />
+<p><strong>2、常用输出项</strong></p>
+<img alt="../_images/lsof1.png" src="../_images/lsof1.png" />
+<p><strong>3、常见的文件描述符</strong></p>
+<img alt="../_images/lsof2.png" src="../_images/lsof2.png" />
+<p><strong>4、常见的文件类型（TYPE）</strong></p>
+<img alt="../_images/lsof3.png" src="../_images/lsof3.png" />
+<p><strong>5、lsof使用实例</strong></p>
+<p>1)查找谁在使用文件系统</p>
+<p>在卸载文件系统时，如果该文件系统中有任何打开的文件，操作通常将会失败。那么通过lsof可以找出那些进程在使用当前要卸载的文件系统，如下：</p>
+<p># lsof  /GTES11/</p>
+<p>COMMAND  PID USER   FD   TYPE DEVICE SIZE NODE NAME</p>
+<p>bash    4208 root  cwd    DIR    3,1 4096    2 /GTES11/</p>
+<p>vim     4230 root  cwd    DIR    3,1 4096    2 /GTES11/</p>
+<p>2)查看22端口现在运行的情况</p>
+<p># lsof -i :22</p>
+<p>COMMAND  PID USER   FD   TYPE DEVICE SIZE NODE NAME</p>
+<p>sshd    1409 root    3u  IPv6   5678       TCP *:ssh (LISTEN)</p>
+<p>3)查看所属root用户进程所打开的文件类型为txt的文件:</p>
+<p># lsof -a -u root -d txt</p>
+<p>COMMAND    PID USER  FD      TYPE DEVICE    SIZE    NODE NAME</p>
+<p>init       1    root txt       REG    3,3   38432 1763452 /sbin/init</p>
+<p>mingetty  1632 root txt       REG    3,3   14366 1763337 /sbin/mingetty</p>
+<p>mingetty  1633 root txt       REG    3,3   14366 1763337 /sbin/mingetty</p>
+<p>mingetty  1634 root txt       REG    3,3   14366 1763337 /sbin/mingetty</p>
+<p>mingetty  1635 root txt       REG    3,3   14366 1763337 /sbin/mingetty</p>
+<p>mingetty  1636 root txt       REG    3,3   14366 1763337 /sbin/mingetty</p>
+<p>mingetty  1637 root txt       REG    3,3   14366 1763337 /sbin/mingetty</p>
+<p>kdm        1638 root txt       REG    3,3  132548 1428194 /usr/bin/kdm</p>
+<p>X          1670 root txt       REG    3,3 1716396 1428336 /usr/bin/Xorg</p>
+<p>kdm        1671 root txt       REG    3,3  132548 1428194 /usr/bin/kdm</p>
+<p>startkde  2427 root txt       REG    3,3  645408 1544195 /bin/bash</p>
+<p>在这个示例中，用户root正在其/GTES11目录中进行一些操作。一个 bash是实例正在运行，并且它当前的目录为/GTES11，另一个则显示的是vim正在编辑/GTES11下的文件。要成功地卸载/GTES11，应该在通知用户以确保情况正常之后，中止这些进程。 这个示例说明了应用程序的当前工作目录非常重要，因为它仍保持着文件资源，并且可以防止文件系统被卸载。这就是为什么大部分守护进程（后台进程）将它们的目录更改为根目录、或服务特定的目录（如 sendmail 示例中的 /var/spool/mqueue）的原因，以避免该守护进程阻止卸载不相关的文件系统。</p>
+<p>3)恢复删除的日志文件</p>
+<p>当Linux计算机受到入侵时，常见的情况是日志文件被删除，以掩盖攻击者的踪迹。管理错误也可能导致意外删除重要的文件，比如在清理旧日志时，意外地删除了数据库的活动事务日志。有时可以通过lsof来恢复这些文件。</p>
+<p>当进程打开了某个文件时，只要该进程保持打开该文件，即使将其删除，它依然存在于磁盘中。这意味着，进程并不知道文件已经被删除，它仍然可以向打开该文件时提供给它的文件描述符进行读取和写入。除了该进程之外，这个文件是不可见的，因为已经删除了其相应的目录索引节点。</p>
+<p>在/proc目录下，其中包含了反映内核和进程树的各种文件。/proc目录挂载的是在内存中所映射的一块区域，所以这些文件和目录并不存在于磁盘中，因此当我们对这些文件进行读取和写入时，实际上是在从内存中获取相关信息。大多数与 lsof 相关的信息都存储于以进程的 PID 命名的目录中，即 /proc/1234 中包含的是 PID 为 1234
+的进程的信息。每个进程目录中存在着各种文件，它们可以使得应用程序简单地了解进程的内存空间、文件描述符列表、指向磁盘上的文件的符号链接和其他系统信息。lsof 程序使用该信息和其他关于内核内部状态的信息来产生其输出。所以lsof
+可以显示进程的文件描述符和相关的文件名等信息。也就是我们通过访问进程的文件描述符可以找到该文件的相关信息</p>
+<p>当系统中的某个文件被意外地删除了，只要这个时候系统中还有进程正在访问该文件，那么我们就可以通过lsof从/proc目录下恢复该文件的内容。 假如由于误操作将/var/log/messages文件删除掉了，那么这时要将/var/log/messages文件恢复的方法如下：</p>
+<p>首先使用lsof来查看当前是否有进程打开/var/logmessages文件，如下：</p>
+<p># lsof |grep /var/log/messages</p>
+<p>syslogd   1283      root    2w      REG        3,3  5381017    1773647 /var/log/messages (deleted)</p>
+<p>从上面的信息可以看到 PID 1283（syslogd）打开文件的文件描述符为 2。同时还可以看到/var/log/messages已经标记被删除了。因此我们可以在 /proc/1283/fd/2 （fd下的每个以数字命名的文件表示进程对应的文件描述符）中查看相应的信息，如下:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># head -n 10 /proc/1283/fd/2</span>
+</pre></div>
+</div>
+<p>Aug  4 13:50:15 holmes86 syslogd 1.4.1: restart.</p>
+<p>Aug  4 13:50:15 holmes86 kernel: klogd 1.4.1, log source = /proc/kmsg started.</p>
+<p>Aug  4 13:50:15 holmes86 kernel: Linux version 2.6.22.1-8 (<a class="reference external" href="mailto:root&#37;&#52;&#48;everestbuilder&#46;linux-ren&#46;org">root<span>&#64;</span>everestbuilder<span>&#46;</span>linux-ren<span>&#46;</span>org</a>) (gcc version 4.2.0) #1 SMP Wed Jul 18 11:18:32 EDT 2007</p>
+<p>Aug  4 13:50:15 holmes86 kernel: BIOS-provided physical RAM map:</p>
+<p>Aug  4 13:50:15 holmes86 kernel:  BIOS-e820: 0000000000000000 - 000000000009f000 (usable)</p>
+<p>Aug  4 13:50:15 holmes86 kernel:  BIOS-e820: 000000000009f000 - 00000000000a0000 (reserved)</p>
+<p>从上面的信息可以看出，查看 /proc/1283/fd/2 就可以得到所要恢复的数据。如果可以通过文件描述符查看相应的数据，那么就可以使用 I/O 重定向将其复制到文件中，如:</p>
+<p>cat /proc/1283/fd/2 &gt; /var/log/messages</p>
+<p>对于许多应用程序，尤其是日志文件和数据库，这种恢复删除文件的方法非常有用。</p>
+</div>
+<div class="section" id="killkillall">
+<h2>kill与killall<a class="headerlink" href="#killkillall" title="永久链接至标题">¶</a></h2>
+<p>kill 和pid 在一起</p>
+<p>1、kill -9 pid</p>
+<p>-9表示强制终止信号</p>
+<p>2、kill -s 9 pid</p>
+<p>效果与1中等效</p>
+<p>kill -s SIGKILL #SIGKILL与9信号等效</p>
+<p>3、kill -HUP pid #重启进程</p>
+<blockquote>
+<div><blockquote>
+<div><p>kill -l HUP pid</p>
+<p>kill -1 pid</p>
+<p>三者等效</p>
+</div></blockquote>
+<p>4、 kill -TERM PPID</p>
+<blockquote>
+<div><p>kill -15 PPID</p>
+<blockquote>
+<div>两者等效</div></blockquote>
+</div></blockquote>
+<p>给父进程发送一个TERM信号，试图杀死它和它的子进程。</p>
+</div></blockquote>
+<p>两者使用形式差不多，效果也差不多，写在一起</p>
+<p>killall 与程序名一起</p>
+<p>1、killall 程序名</p>
+</div>
+<div class="section" id="psacct">
+<h2>psacct<a class="headerlink" href="#psacct" title="永久链接至标题">¶</a></h2>
+<p>Redhat 系统操作系统用户进程监控记账的软件包为psacct，Debian 系列操作系统中相应的软件包则为acct，下面以Debian系列为例说明</p>
+<p>管理员可以使用 acct 软件包提供的工具监视所有用户执行的命令，包括 CPU 时间和内存占用，实现进程记帐功能。acct 软件包提供了三个进程活动监视工具: ac, lastcomm 和 sa。</p>
+<p>accton 用于打开或关闭进程记帐功能，它是运行 lastcomm 和 sa 命令的前提。accton 命令是一个开关，运行一次将打开进程记帐功能，再运行一次将关闭进程记帐功能。为了方便管理员</p>
+<p>使用，安装acct软件包后系统提供一个 init 脚本执行 accton 命令，您可以使用如下的命令打开或关闭进程记帐功能。</p>
+<p>service acct start</p>
+<p>service acct stop</p>
+<p>为避免进程记帐日志文件过大，通常在使用进程记帐功能时才打开，不用时就将其关闭。
+默认情况下，acct 服务没有打开。</p>
+<p>lastcomm 和 sa 命令默认从进程记帐文件 /var/log/account/acct 中读取数据，此文件为二进程文件。ac 命令从/var/log/wtmp 文件中读取数据，此文件也为二进程文件。</p>
+<div class="section" id="lastcomm">
+<h3>lastcomm<a class="headerlink" href="#lastcomm" title="永久链接至标题">¶</a></h3>
+<p>命令格式为</p>
+<img alt="../_images/acct1.png" src="../_images/acct1.png" />
+<p>lastcomm 使用举例</p>
+<img alt="../_images/acct2.png" src="../_images/acct2.png" />
+<p>lastcomm 输出字段说明</p>
+<img alt="../_images/acct3.png" src="../_images/acct3.png" />
+</div>
+<div class="section" id="sa">
+<h3>sa<a class="headerlink" href="#sa" title="永久链接至标题">¶</a></h3>
+<p>sa命令从 /var/account/pacct 原始记帐数据文件中读取信息并进行信息汇总。</p>
+<p>sa 命令的显示结果可以包含以下字段：</p>
+<ol class="arabic simple">
+<li>calls –– 命令的调用次数</li>
+</ol>
+<p>2.记帐设备收集的信息：</p>
+<blockquote>
+<div><ul class="simple">
+<li>re –– 实际使用时间（单位为分钟）。</li>
+<li>cpu –– 通常简写为 cp，表示用户和系统时间之和（单位为分钟）。</li>
+<li>k –– 平均 CPU 时间（单元的大小为1K）。</li>
+<li>u –– 用户 CPU 时间（单位为分钟）。</li>
+<li>s –– 系统 CPU 时间（单位为分钟）。</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>comm and –– 调用的命令。</li>
+</ol>
+<p>不带任何参数的 sa 命令，将显示 calls、re、cpu、k 和 command 字段，以 CPU 字段排序。并将只用过一次的命令放在 <a href="#id2"><span class="problematic" id="id3">**</span></a><a href="#id4"><span class="problematic" id="id5">*</span></a>other 类别中显示。</p>
+<p>常用参数：</p>
+<img alt="../_images/acct4.png" src="../_images/acct4.png" />
+</div>
+<div class="section" id="ac">
+<h3>ac<a class="headerlink" href="#ac" title="永久链接至标题">¶</a></h3>
+<p>ac 命令及格式</p>
+<p>ac 命令从 /var/log/wtm p 文件中的登录和退出时间记录计算并输出用户的连接时间和总计连接时间。</p>
+<p>记帐文件 /var/log/wtm p 由 init 和 login 维护。ac 和 login 均不生成 /var/log/wtm p 文件。若记帐文件不存在，则不做记帐工作</p>
+<p>常用参数</p>
+<img alt="../_images/acct5.png" src="../_images/acct5.png" />
+</div>
+</div>
+<div class="section" id="sysstat">
+<h2>sysstat<a class="headerlink" href="#sysstat" title="永久链接至标题">¶</a></h2>
+<p>syssta t 是 Linux 系统中的常用工具包。它的主要用途是观察服务负载，比如CPU和内存的占用率、网络的使用率以及磁盘写入和读取速
+度等。</p>
+<p>syssta t 工具包中包含两类工具：</p>
+<blockquote>
+<div><ul class="simple">
+<li>即时查看工具：iosta t、m psta t、sar</li>
+<li>累计统计工具：sar</li>
+</ul>
+</div></blockquote>
+<p>也就是说，sar 具有这两种功能。因此，sar 是 syssta t 中的核心工具。</p>
+<p>为了实现 sar 的累计统计，系统必须周期地记录当时的信息，这是通过调用 /usr/lib/sa/ 中的三个工具实现的：</p>
+<blockquote>
+<div><ul class="simple">
+<li>sa1 ：收集并存储每天系统动态信息到一个二进制的文件中，用作 sadc 的前端程序</li>
+<li>sa2 ：收集每天的系统活跃信息写入总结性的报告，用作 sar 的前端程序</li>
+<li>sadc ：系统动态数据收集工具，收集的数据被写入一个二进制的文件中，它被用作 sar 工具的后端</li>
+</ul>
+</div></blockquote>
+<div class="section" id="id6">
+<h3>安装配置sysstat<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>以Debian 系统为例：</p>
+<p>1、apt-get install sysstat</p>
+<p>2、编辑 /etc/default/sysstat、/etc/init.d/sysstat、/etc/cron.d/sysstat、/etc/cron.daily/sysstat</p>
+<p>将 ENABLE=&#8221;false&#8221; 更改为 ENABLE=&#8221;true&#8221;</p>
+<p>3、service sysstat start</p>
+</div>
+<div class="section" id="sar">
+<h3>sar<a class="headerlink" href="#sar" title="永久链接至标题">¶</a></h3>
+<p>在使用 Linux 系统时，常常会遇到各种各样的问题，比如系统容易死机或者运行速度突然变慢，这时我们常常猜测：是否硬盘空间不足，
+是否内存不足，是否 I/O 出现瓶颈，还是系统的核心参数出了问题？这时，我们应该考虑使用 sar 工具对系统做一个全面了解，分析系统
+的负载状况。</p>
+<p>sar（System Activity Reporter）是系统活动情况报告的缩写。sar 工具将对系统当前的状态进行取样，然后通过计算数据和比例来表
+达系统的当前运行状态。它的特点是可以连续对系统取样，获得大量的取样数据；取样数据和分析的结果都可以存入文件，所需的负载很
+小。 sar 是目前 Linux 上最为全面的系统性能分析工具之一，可以从多方面对系统的活动进行报告，包括：文件的读写情况、系统调用的
+使用情况、磁盘I/O、CPU效率、内存使用状况、进程活动及IPC有关的活动等。为了提供不同的信息，sar 提供了丰富的选项、因此使用
+较为复杂。</p>
+<p><strong>I、sar 的命令格式</strong></p>
+<img alt="../_images/sar.png" src="../_images/sar.png" />
+<p>其中：</p>
+<blockquote>
+<div><ul class="simple">
+<li>interval : 为取样时间间隔</li>
+<li>count : 为输出次数，若省略此项，默认值为 1</li>
+</ul>
+</div></blockquote>
+<p>常用选项：</p>
+<img alt="../_images/saroption1.png" src="../_images/saroption1.png" />
+<img alt="../_images/saroption2.png" src="../_images/saroption2.png" />
+<p><strong>II、sar 使用举例</strong></p>
+<img alt="../_images/sareg1.png" src="../_images/sareg1.png" />
+<img alt="../_images/sareg2.png" src="../_images/sareg2.png" />
+<img alt="../_images/sareg3.png" src="../_images/sareg3.png" />
+<img alt="../_images/sareg4.png" src="../_images/sareg4.png" />
+<img alt="../_images/sareg5.png" src="../_images/sareg5.png" />
+<img alt="../_images/sareg6.png" src="../_images/sareg6.png" />
+<img alt="../_images/sareg7.png" src="../_images/sareg7.png" />
+<img alt="../_images/sareg8.png" src="../_images/sareg8.png" />
+<img alt="../_images/sareg9.png" src="../_images/sareg9.png" />
+<img alt="../_images/sareg10.png" src="../_images/sareg10.png" />
+<img alt="../_images/sareg11.png" src="../_images/sareg11.png" />
+<img alt="../_images/sareg12.png" src="../_images/sareg12.png" />
+<img alt="../_images/sareg13.png" src="../_images/sareg13.png" />
+<img alt="../_images/sareg14.png" src="../_images/sareg14.png" />
+<img alt="../_images/sareg15.png" src="../_images/sareg15.png" />
+<img alt="../_images/sareg16.png" src="../_images/sareg16.png" />
+</div>
+<div class="section" id="iostat">
+<h3>iostat<a class="headerlink" href="#iostat" title="永久链接至标题">¶</a></h3>
+<img alt="../_images/io1.png" src="../_images/io1.png" />
+<img alt="../_images/io2.png" src="../_images/io2.png" />
+<img alt="../_images/io3.png" src="../_images/io3.png" />
+<img alt="../_images/io4.png" src="../_images/io4.png" />
+<img alt="../_images/io5.png" src="../_images/io5.png" />
+</div>
+<div class="section" id="mpstat">
+<h3>mpstat<a class="headerlink" href="#mpstat" title="永久链接至标题">¶</a></h3>
+<img alt="../_images/mp1.png" src="../_images/mp1.png" />
+<img alt="../_images/mp2.png" src="../_images/mp2.png" />
+<img alt="../_images/mp3.png" src="../_images/mp3.png" />
+<img alt="../_images/mp4.png" src="../_images/mp4.png" />
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">工具篇</a><ul>
+<li><a class="reference internal" href="#ps">ps</a></li>
+<li><a class="reference internal" href="#top">top</a></li>
+<li><a class="reference internal" href="#pgrep">pgrep</a></li>
+<li><a class="reference internal" href="#lsof">lsof</a></li>
+<li><a class="reference internal" href="#killkillall">kill与killall</a></li>
+<li><a class="reference internal" href="#psacct">psacct</a><ul>
+<li><a class="reference internal" href="#lastcomm">lastcomm</a></li>
+<li><a class="reference internal" href="#sa">sa</a></li>
+<li><a class="reference internal" href="#ac">ac</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sysstat">sysstat</a><ul>
+<li><a class="reference internal" href="#id6">安装配置sysstat</a></li>
+<li><a class="reference internal" href="#sar">sar</a></li>
+<li><a class="reference internal" href="#iostat">iostat</a></li>
+<li><a class="reference internal" href="#mpstat">mpstat</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="process.html"
+                        title="上一章">进程与作业</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="../Linux_file_priv/index.html"
+                        title="下一章">&lt;no title&gt;</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_pro_mana/tools.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../Linux_file_priv/index.html" title="&lt;no title&gt;"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="process.html" title="进程与作业"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux 进程管理</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

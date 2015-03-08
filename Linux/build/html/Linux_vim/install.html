@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>安装配置篇 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux VIM" href="index.html" />
+    <link rel="next" title="系统篇" href="command.html" />
+    <link rel="prev" title="Linux VIM" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="command.html" title="系统篇"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Linux VIM"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux VIM</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>安装配置篇<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>vim的安装，vim插件的安装，语法高亮、项目视图配置</p>
+<div class="section" id="vim">
+<h2>vim的安装<a class="headerlink" href="#vim" title="永久链接至标题">¶</a></h2>
+<p>1、Debian 系列</p>
+<p>apt-get install vim</p>
+<p>2、Redhat 系列</p>
+<p>yum install vim</p>
+</div>
+<div class="section" id="id2">
+<h2>vim插件管理器安装<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>最好也要安装vim-scripts 和vim-addon-manager 这两个是插件管理器
+安装好之后，可以方便的在线进行插件的安装</p>
+<p>1、Debian 系列</p>
+<p>apt-get install vim-scripts vim-addon-manager</p>
+<p>2、Redhat 系列</p>
+<p>yum install vim-scripts vim-addon-manager</p>
+<p>3、安装插件</p>
+<p>vim-addons install taglist   &#8212;安装taglist 插件</p>
+</div>
+<div class="section" id="id3">
+<h2>vim的配置<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id4">
+<h3>语法高亮<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>vim 版本5之后就支持语法高亮显示</p>
+<p>1、首先查看vim版本,如果符合要求则进行下一步</p>
+<p>2、编辑vim配置文件vimrc  vim /etc/vim/vimrc，这是系统中公共的vim配置文件，对所有用户都有效</p>
+<blockquote>
+<div><p>1)打开vimrc，添加以下语句来使得语法高亮显示</p>
+<p>syntax on</p>
+<p>2)如果此时语法还是没有高亮显示，那么在/etc目录下的profile文件中添加以下语句</p>
+<p>export TERM=xterm-color</p>
+</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h3>项目视图<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>项目试图就是这种：</p>
+<img alt="../_images/view.png" src="../_images/view.png" />
+<p>1、下载安装Exuberant Ctags</p>
+<p>2、假设ctags 可执行文件安装于:/usr/local/bin目录下</p>
+<p>在vimrc中加入</p>
+<p>let Tlist_Ctags_Cmd=&#8217;/usr/local/bin/ctags&#8217;</p>
+<p>或者在.bashrc中加入</p>
+<p>Export Tlist_Ctags_Cmd=&#8217;/usr/local/bin/ctags&#8217;</p>
+<p>3、然后用vim-add-manager下载安装Tasklist 插件</p>
+<p>vim-addons install taglist</p>
+<p>4、在vim normal 模式下执行命令：TlistToggle</p>
+<p>5、退出项目试图就在normal模式下再次执行TlistToggle即可</p>
+</div>
+<div class="section" id="id6">
+<h3>语法提示和自动完成<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>1、下载pythoncomplete.vim并将其放在&lt;Vim安装目录&gt;/&lt;$VIMRUNTIME&gt;/autoload/目录下(一般为：/usr/share/vim/vim版本/autoload)</p>
+<p>2、在vimrc中添加</p>
+<p>filetype plugin on</p>
+<p>set ofu=syntaxcomplet</p>
+<p>autocmd FileType python</p>
+<p>set omnifunc=pythoncomplete</p>
+<p>autocmd FileType python runtime! autoload/pythoncomplete.vim</p>
+<p>3、然后在用vim编辑python代码文件时候通过ctrl-x ctrl-o 或者 ctrl+n来打开文法提示上下文菜单,如下图所示:</p>
+<img alt="../_images/menu.png" src="../_images/menu.png" />
+</div>
+<div class="section" id="faq">
+<h3>FAQ<a class="headerlink" href="#faq" title="永久链接至标题">¶</a></h3>
+<p>1、vim 的配置文件默认在什么位置</p>
+<p>vim启动的时候会读取配置文件，配置文件一般位置为:/etc/vim/vimrc</p>
+<p>/etc/vim/gvimrc   &#8212;适用于Gui VIM</p>
+<p>另外还有一个配置文件：/usr/share/vim/vim73/debian.vim</p>
+<p>这个配置文件不建议直接修改，而是修改vimrc,因为vimrc中的配置文件会直接覆盖debian.vim 的配置</p>
+<p>2、vim 插件的位置</p>
+<blockquote>
+<div><p>2.1 语法类的插件一般位置为：</p>
+<p>/usr/share/vim/vim73/syntax (作用：用于识别不同类型语言的代码文件，为语法高亮显示提供支持)</p>
+<p>(如果vim不能自动识别语法文件，还需要在vim中执行命令：set filetype=language，如:set filetype=python。)</p>
+<p>2.2 标准插件的位置：</p>
+<p>/usr/share/vim/vim73/plugin ，vim每次启动的时候都会加载这个文件夹内的文件</p>
+<p>2.3编译类的插件位置：</p>
+<p>/usr/share/vim/vim73/compiler顾名思义就是为能够在Vim直接编译某些语言编写的程序提供支持，其他的插件也都位于</p>
+<p>/usr/share/vim/vim73 目录下的相应目录</p>
+</div></blockquote>
+<p>3.vimrc配置文件中常用的设置</p>
+<p>set nocompatible &#8221; explictly get out of vi-compatible mode</p>
+<p>set background=dark &#8221; we plan to use a dark background</p>
+<p>syntax on  &#8221; syntax highlighting on</p>
+<p>set number  &#8221; turn on line numbers</p>
+<p>set ruler  &#8220;always show current position along the bottom</p>
+<p>set incsearch  &#8221; do highlight as you type you search phrase</p>
+<p>set ignorecase  &#8221; case insensitive by default</p>
+<p>set smartcase  &#8221; if there are caps, go case-sensitive</p>
+<p>colorscheme macvim &#8221; the color scheme I am using now</p>
+<p>&#8221; 1 tab == 4 spaces</p>
+<p>set shiftwidth=4</p>
+<p>set tabstop=4</p>
+<p>&#8221; Enable filetype plugins</p>
+<p>filetype on</p>
+<p>filetype plugin on</p>
+<p>filetype indent on</p>
+<p>&#8220;设置python 自动补充</p>
+<p>set ofu=syntaxcomplet</p>
+<p>autocmd FileType python</p>
+<p>set omnifunc=pythoncomplete</p>
+<p>autocmd FileType python runtime! autoload/pythoncomplete.vim</p>
+<p>&#8221; Set utf8 as standard encoding and en_US as the standard language</p>
+<p>set encoding=utf8</p>
+<p>set langmenu=zh_CN.UTF-8</p>
+<p>&#8220;设置缩进</p>
+<p>set autoindent &#8221; same level indent</p>
+<p>set smartindent &#8221; next level indent</p>
+<p>set expandtab</p>
+<p>set tabstop=4</p>
+<p>set shiftwidth=4</p>
+<p>set softtabstop=4</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">安装配置篇</a><ul>
+<li><a class="reference internal" href="#vim">vim的安装</a></li>
+<li><a class="reference internal" href="#id2">vim插件管理器安装</a></li>
+<li><a class="reference internal" href="#id3">vim的配置</a><ul>
+<li><a class="reference internal" href="#id4">语法高亮</a></li>
+<li><a class="reference internal" href="#id5">项目视图</a></li>
+<li><a class="reference internal" href="#id6">语法提示和自动完成</a></li>
+<li><a class="reference internal" href="#faq">FAQ</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="index.html"
+                        title="上一章">Linux VIM</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="command.html"
+                        title="下一章">系统篇</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_vim/install.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="command.html" title="系统篇"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Linux VIM"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux VIM</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

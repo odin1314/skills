@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>IP篇 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux网络" href="index.html" />
+    <link rel="next" title="ARP篇" href="arp.html" />
+    <link rel="prev" title="Linux网络" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="arp.html" title="ARP篇"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Linux网络"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux网络</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="ip">
+<h1>IP篇<a class="headerlink" href="#ip" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>配置IP<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<dl class="docutils">
+<dt>1、 临时配置ipv4地址</dt>
+<dd><p class="first">iconfig</p>
+<p>命令格式</p>
+<p>ifconfig &lt;网络接口&gt; &lt;IP地址&gt; [&lt;netmask 子网掩码&gt; &lt;broadcast 广播地址&gt;]</p>
+<p>eg:ifconfig eth0 192.168.0.222</p>
+<p>当IP地址使用标准A、B、C类地址时，广播地址和子网掩码可以省略，系统会自动判断广播地址和子网掩码的值并进行设置。否则必须指出广播地址和子网掩码</p>
+<p>ifconfig eth0 10.0.0.222 Mask 255.255.255.0 Broadcast 10.0.0.255</p>
+<p>1.1 给接口设置多个IP</p>
+<p>ifconfig eth0:0 192.168.0.250</p>
+<p>ifconfig eth1:0 192.168.1.3</p>
+<p>ifconfig eth1:1 192.168.2.3</p>
+<div class="last admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">使用 ifconfig 命令设置网络参数会立即生效，但不会修改网络接口配置文件，这将导致所配置的参数在重新启动系统后失效。</p>
+</div>
+</dd>
+</dl>
+<p>2、永久配置ipv4地址</p>
+<blockquote>
+<div><p>2.1 Redhat系列操作系统</p>
+<p>在 /etc/sysconfig/network-scripts 目录下存储网络接口配置文件。每个网络接口有各自的配置文件，配置文件以 ifcfg- 为前缀后接网络接口名。例如，接口 eth0 的配置文件名为 ifcfg-eth0 。
+下面是 eth0 接口的配置文件。</p>
+<img alt="../_images/ifcfg-eth0.png" src="../_images/ifcfg-eth0.png" />
+<p>您可以根据需要修改此配置文件 ifcfg-eth0 的配置。如果要设置 eth1 的配置文件，您可以复制 ifcfg-eth0 为ifcfg-eth1 然后做适当修改，如果要是为接口配置多个IP地址，可以将ifcfg-eth0拷贝成ifcfg-eth0:0 等，
+然后做相应修改</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">修改完成后记得要重启网络服务 service network restart</p>
+</div>
+<p>2.2 Debian系列操作系统</p>
+<p>在/etc/network/interfaces文件中存储着各自接口的配置信息，下图是配置示意，可以根据具体环境设置</p>
+<img alt="../_images/debian-interface.png" src="../_images/debian-interface.png" />
+</div></blockquote>
+<dl class="docutils">
+<dt>3、临时配置ipv6地址</dt>
+<dd>ifconfig ens33【接口名称】 inet6 add 2001::4/16【ipv6地址】</dd>
+<dt>4、永久配置ipv6地址</dt>
+<dd>在配置文件中输入类似于ipv4的设置</dd>
+</dl>
+</div>
+<div class="section" id="id2">
+<h2>配置主机名<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>1、临时修改主机名</p>
+<p>hostname xxxxx</p>
+<p>或</p>
+<p>echo xxxxx &gt; /etc/hostname</p>
+<p>或</p>
+<p>hostname -F /etc/hostname</p>
+<p>2、永久修改主机名</p>
+<blockquote>
+<div><p>2.1 Redhat系列操作系统</p>
+<p>编辑 /etc/sysconfig/network 文件中的如下配置行：</p>
+<p>HOSTNAME=yourhostname</p>
+<p>#将 yourhostname 修改为您的主机名。配置文件修改完毕，在下次重新启动时就会生效。</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">不要忘记还需要修改 /etc/hosts 文件中的主机名。</p>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="dns">
+<h2>配置DNS<a class="headerlink" href="#dns" title="永久链接至标题">¶</a></h2>
+<p>1、修改DNS客户端配置文件</p>
+<p>DNS 客户端配置文件为/etc/resolv.conf，使用如下命令添加 DNS 服务器解析的指向。</p>
+<p>echo &#8220;nameverver 208.67.222.222&#8221; &gt; /etc/resolv.conf</p>
+<p>表示将DNS服务器设置为 208.67.222.222</p>
+<p>2、修改 Hosts表 实现静态 DNS 解析</p>
+<p>要实现域名解析，即可以使用 DNS 服务器，也可以使用 Hosts表。Hosts表 配置文件是/etc/hosts</p>
+</div>
+<div class="section" id="id3">
+<h2>启停网络接口<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>1、启用接口</p>
+<p>ifconfig ethx up</p>
+<p>2、停用接口</p>
+<p>ifconfig  ethx down</p>
+</div>
+<div class="section" id="id4">
+<h2>查看网络参数配置<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>1、ifconfig 或者ifconfig -a</p>
+<blockquote>
+<div><img alt="../_images/ifconfig.png" src="../_images/ifconfig.png" />
+<img alt="../_images/ifconfig-info.png" src="../_images/ifconfig-info.png" />
+</div></blockquote>
+<p>2、ip address show</p>
+<blockquote>
+<div><img alt="../_images/address-show.png" src="../_images/address-show.png" />
+</div></blockquote>
+<p>3、ip link list</p>
+<blockquote>
+<div><img alt="../_images/link-list.png" src="../_images/link-list.png" />
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">IP篇</a><ul>
+<li><a class="reference internal" href="#id1">配置IP</a></li>
+<li><a class="reference internal" href="#id2">配置主机名</a></li>
+<li><a class="reference internal" href="#dns">配置DNS</a></li>
+<li><a class="reference internal" href="#id3">启停网络接口</a></li>
+<li><a class="reference internal" href="#id4">查看网络参数配置</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="index.html"
+                        title="上一章">Linux网络</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="arp.html"
+                        title="下一章">ARP篇</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_net/ip.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="arp.html" title="ARP篇"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Linux网络"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux网络</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

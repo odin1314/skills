@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ssh 安全配置 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="大话SSH" href="index.html" />
+    <link rel="next" title="&lt;no title&gt;" href="tunnel.html" />
+    <link rel="prev" title="大话SSH" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="tunnel.html" title="&lt;no title&gt;"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="大话SSH"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">大话SSH</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="ssh">
+<h1>ssh 安全配置<a class="headerlink" href="#ssh" title="永久链接至标题">¶</a></h1>
+<p><strong>1、sshd_confg 安全配置</strong></p>
+<p>1)禁止root 登录</p>
+<p>2)禁止空口令登录</p>
+<p>3)禁止kndown host 登录</p>
+<p>4)禁止端口转发</p>
+<p>5)使用1024位公钥(默认是768)</p>
+<p>6)只允许指定用户|用户组登录</p>
+<p><strong>2、ssh登录限制配置思路</strong></p>
+<p>1)使用tcpwrapper</p>
+<p>你可在 hosts.allow 中设：</p>
+<p>sshd: 192.168.0.1</p>
+<p>sshd: ALL: deny</p>
+<p>只允许192.168.0.1 主机登录</p>
+<p>2)iptables</p>
+<p>iptables -I INPUT -p tcp &#8211;dport 22 -j DROP</p>
+<p>iptables -I INPUT -p tcp &#8211;dport 22 -s 192.168.0.0/32 -j ACCEPT</p>
+<p>(注：用 -I 命令，且顺序不能颠倒...)</p>
+<p>3)使用pam模块</p>
+<blockquote>
+<div><p>修改 /etc/pam.d/sshd</p>
+<p>auth required pam_listfile.so item=user sense=allow file=/etc/sshusers onerr=fail</p>
+<p>将你要的用户写进/etc/sshusers ，如：</p>
+<p>echo &#8220;zhangsan&#8221; &gt;&gt; /etc/sshusers</p>
+<p>设定登录黑名单</p>
+<p>vi /etc/pam.d/sshd</p>
+<p>增加</p>
+<p>auth required /lib/security/pam_listfile.so item=user sense=deny file=/etc/sshd_user_deny_list onerr=succeed</p>
+<p>所有/etc/sshd_user_deny_list里面的用户被拒绝ssh登录</p>
+</div></blockquote>
+<p>4)使用sshd_config配置文件</p>
+<p>允许或者禁止某个用户(组)通过ssh登录</p>
+<p>在/etc/ssh/sshd_conf添加</p>
+<p>AllowUsers 用户名</p>
+<p>或者</p>
+<p>AllowGroups 组名</p>
+<p>或者</p>
+<p>DenyUsers 用户名</p>
+<p><strong>3、ssh 暴力破解防护</strong></p>
+<p>1)限制IP</p>
+<p>iptables、tcpwraper都可以做</p>
+<p>2)限制用户(组)</p>
+<blockquote>
+<div><p>sshd可做</p>
+<p>pam（黑名单、白名单）</p>
+</div></blockquote>
+<p>3)只允许公钥登录</p>
+<p>4)指定尝试密码次数</p>
+<p>vi /etc/sshd_config</p>
+<p>修必MaxAuthTries 3</p>
+<p><strong>4、ssh 中间人攻击原理与防护</strong></p>
+<p>1)原理</p>
+<p>dh算法是这样的，A和B先共享p,q。然后A生成随机数a,计算E1=(p^a)modq发给B，B生成随机数b,计算E2=(p^b)modq发给A；A计算K=E2^a=(p^ab)modq,B计算K=E1^b=(p^ba)modq，就共享了K这个密钥吧，</p>
+<p>C假设是中间人，他知道E1和E2,p,q</p>
+<p>他也生成一个随机数c，计算Ec=(p^c)modq给A和B</p>
+<p>这个时候E1，E2被截获没有发给对方，都在中间被C拦截住了</p>
+<p>A收到Ec以为是E2,B收到Ec以为是E1</p>
+<p>A计算Kac=Ec^a=p^ca,B计算Kbc=Ec^b=p^cb</p>
+<p>C就可以中间人了</p>
+<p>E1、E2、p、q这些信息全部用服务器公钥加密传输</p>
+<p>2)防护</p>
+<p>注意server端公钥指纹的变化</p>
+<p><strong>5、公钥自动登录设置</strong></p>
+<p>ssh-keygen 和ssh-copy-id实现ssh自动登录</p>
+<p>本实验的前提是：两者都是linux系统，且一端是ssh-server(192.168.11.164)，一端是ssh-client(192.168.11.103)</p>
+<p>在ssh-client执行如下操作</p>
+<p>1)ssh-keygen -t rsa   ===&gt;这条命令用来生成rsa密钥对（一个公钥，一个私钥，.pub结尾的是公钥，这里-t的参数就是指定使用的算法，主要有三种 rsa dsa 用于ssh2 ，rsa1用于ssh1，这里以ssh2为例实验）</p>
+<p>在ssh-client当前用户的家目录下面的.ssh目录下面会出现两个文件id_rsa id_rsa.pub</p>
+<p>2)ssh-copy-id -i id_rsa.pub <a class="reference external" href="mailto:root&#37;&#52;&#48;192&#46;168&#46;11&#46;164">root<span>&#64;</span>192<span>&#46;</span>168<span>&#46;</span>11<span>&#46;</span>164</a></p>
+<p>出现如下：</p>
+<p><a class="reference external" href="mailto:root&#37;&#52;&#48;192&#46;168&#46;11&#46;164's">root<span>&#64;</span>192<span>&#46;</span>168<span>&#46;</span>11<span>&#46;</span>164's</a> password:</p>
+<p>Now try logging into the machine, with &#8220;ssh <a class="reference external" href="mailto:'root&#37;&#52;&#48;192&#46;168&#46;11&#46;164">'root<span>&#64;</span>192<span>&#46;</span>168<span>&#46;</span>11<span>&#46;</span>164</a>&#8216;&#8221;, and check in:</p>
+<blockquote>
+<div>.ssh/authorized_keys</div></blockquote>
+<p>to make sure we haven&#8217;t added extra keys that you weren&#8217;t expecting.</p>
+<p>这样当你在当前的ssh-client用户环境中去以root身份登录192.168.11.164这台机器的时候，会不用输入密码而自动登录的</p>
+<p>当你登录到192.168.11.164这台机器后，你会发现在root会用的~/.ssh目录下面有一个名为authorized_keys的文件，这个文件存储有ssh-client发送的公钥信息</p>
+<p>当然你也可以选择以不同用户身份自动登录进入ssh-server，只要将对应的公钥信息拷贝至相应的用户的.ssh/authorized_keys文件中即可</p>
+<p>3、ssh-copy-id应注意的小地方</p>
+<p>Default public key: ssh-copy-id uses ~/.ssh/identity.pub as the default public key file (i.e when no value is passed to option -i). Instead, I wish it uses id_dsa.pub, or id_rsa.pub, or identity.pub as default keys. i.e If any one of them exist, it should copy that to the remote-host. If two or three of them exist, it should copy identity.pub as default.
+The agent has no identities: When the ssh-agent is running and the ssh-add -L returns “The agent has no identities” (i.e no keys are added to the ssh-agent), the ssh-copy-id will still copy the message “The agent has no identities” to the remote-host’s authorized_keys entry.
+Duplicate entry in authorized_keys: I wish ssh-copy-id validates duplicate entry on the remote-host’s authorized_keys. If you execute ssh-copy-id multiple times on the local-host, it will keep appending the same key on the remote-host’s authorized_keys file without checking for duplicates. Even with duplicate entries everything works as expected. But, I would like to have my authorized_keys file clutter free.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="index.html"
+                        title="上一章">大话SSH</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="tunnel.html"
+                        title="下一章">&lt;no title&gt;</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_ssh/config.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="tunnel.html" title="&lt;no title&gt;"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="大话SSH"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >大话SSH</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

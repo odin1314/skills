@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>syslog &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux Log" href="index.html" />
+    <link rel="next" title="日志回滚" href="logrotate.html" />
+    <link rel="prev" title="Linux Log" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="logrotate.html" title="日志回滚"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Linux Log"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux Log</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="syslog">
+<h1>syslog<a class="headerlink" href="#syslog" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>日志系统<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p><strong>1、什么是 syslog</strong></p>
+<p>日志的主要用途是系统审计、监测追踪和分析统计。</p>
+<p>为了保证 Linux 系统正常运行、准确解决遇到的各种各样的系统问题，认真地读取日志文件是管理员的一项非常重要的
+任务。</p>
+<p>Linux 内核由很多子系统组成，包括网络、文件访问、内存管理等。子系统需要给用户传送一些消息，这些消息内容包
+括消息的来源及其重要性等。所有的子系统都要把消息送到一个可以维护的公用消息区，于是，就有了 syslog。</p>
+<p>syslog 是一个综合的日志记录系统。它的主要功能是：方便日志管理和分类存放日志。 syslog 使程序设计者从繁重
+的、机械的编写日志文件代码的工作中解脱出来，使管理员更好地控制日志的记录过程。在 syslog 出现之前，每个程
+序都使用自己的日志记录策略。管理员对保存什么信息或是信息存放在哪里没有控制权。</p>
+<p>syslog 能设置成根据输出信息的程序或重要程度将信息排序到不同的文件。例如，由于核心信息更重要且需要有规律
+地阅读以确定问题出在哪里，所以要把核心信息与其他信息分开来，单独定向到一个分离的文件中。</p>
+<p>管理员可以通过编辑 /etc/syslog.conf 来配置它们的行为。</p>
+<p><strong>2、syslogd 的配置文件</strong></p>
+<p>syslogd 的配置文件 /etc/syslog.conf 规定了系统中需要监视的事件和相应的日志的保存位置。使用如下命令：</p>
+<img alt="../_images/catsyslog.png" src="../_images/catsyslog.png" />
+<p>可以查看此文件的内容为：</p>
+<img alt="../_images/syslogconf1.png" src="../_images/syslogconf1.png" />
+<img alt="../_images/syslogconf2.png" src="../_images/syslogconf2.png" />
+<p>该配置文件的每一行的格式如下：</p>
+<img alt="../_images/format.png" src="../_images/format.png" />
+<p>其中：</p>
+<p>1、设备字段用来指定需要监视的事件。它可取的值如下：</p>
+<img alt="../_images/faility.png" src="../_images/faility.png" />
+<p>2、级别字段用于指明与每一种功能有关的级别和优先级。它可取的值如下：</p>
+<img alt="../_images/prio1.png" src="../_images/prio1.png" />
+<img alt="../_images/prio2.png" src="../_images/prio2.png" />
+<p>3、动作字段用于描述对应功能的动作。它可取的值如下：</p>
+<img alt="../_images/action1.png" src="../_images/action1.png" />
+<p>syslog 可以为某一事件指定多个动作，也可以同时指定多个功能和级别，它们之间用分号间隔。</p>
+</div>
+<div class="section" id="id2">
+<h2>查看日志<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>1、常见的日志文件</p>
+<p>日志文件通常存放在 /var/log 目录下。在该目录下除了包括 syslogd 记录的日志之外，同时还包含所有应用程序的
+日志。</p>
+<p>为了查看日志文件的内容必须要有 root 权限。日志文件中的信息很重要，只能让超级用户有访问这些文件的权限。
+管理员可以使用下面的命令</p>
+<img alt="../_images/lslog.png" src="../_images/lslog.png" />
+<p>查看系统中使用的日志文件，常用的日志文件如表所示。</p>
+<img alt="../_images/log1.png" src="../_images/log1.png" />
+<img alt="../_images/log2.png" src="../_images/log2.png" />
+<p>2、查看文本日志文件</p>
+<p>绝大多数日志文件是纯文本文件，每一行就是一个消息。只要是在Linux下能够处理纯文本的工具都能用来查看日志文
+件。可以使用 cat、tac、more、less、tail 和 grep 进行查看。</p>
+<p>下面以 /var/log/message s 为例，说明其日志文件的格式。</p>
+<p>该文件中每一行表示一个消息，而且都由四个域的固定格式组成：</p>
+<p>时间标签(Timestamp)：表示消息发出的日期和时间。</p>
+<p>主机名(Hostname)：表示生成消息的计算机的名字。</p>
+<p>生成消息的子系统的名字：可以是“Kernel”，表示消息来自内核或者是进程的名字，表示发出消息的程序的名字。</p>
+<p>在方括号里的是进程的PID。</p>
+<p>消息(Me ssage)，即消息的内容。</p>
+<p>例如：</p>
+<img alt="../_images/message.png" src="../_images/message.png" />
+<p>可以看出，实际上在 /var/log/message 文件中的消息都不是特别重要或紧急的。</p>
+<p>3、查看非文本日志文件</p>
+<p>也有一些日志文件是二进制文件，需要使用相应的命令进行读取。</p>
+<p>1)lastlog</p>
+<p>使用 lastlog 命令来检查某特定用户上次登录的时间，并格式化输出上次登录日志 /var/log/lastlog 的内容。例
+如：</p>
+<img alt="../_images/lastlog.png" src="../_images/lastlog.png" />
+<p>2)last</p>
+<p>last 命令往回搜索 /var/log/wtmp 来显示自从文件第一次创建以来登录过的用户。例如：</p>
+<img alt="../_images/last.png" src="../_images/last.png" />
+<p>3)lastb</p>
+<p>lastb 命令搜索 /var/log/btm p 来显示登录未成功的信息。例如：</p>
+<img alt="../_images/lastb.png" src="../_images/lastb.png" />
+<p>4）who</p>
+<p>who 命令查询 wtm p 文件并报告当前登录的每个用户。who 命令的缺省输出包括用户名、终端类型、登录日期及远程
+主机。例如：</p>
+<img alt="../_images/who.png" src="../_images/who.png" />
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">last 与lastlog的区别</p>
+</div>
+<p>last 指的是最近登录的记录，且只记录有登录记录的用户，没有登录的不记录，可能一个用户有多次登录记录，也包括正在登录的记录(正在登录的现实still login)</p>
+<p>lastlog 记录最近一次用户登录的记录每个用户只有一条记录，切包括哪些没有登录的(显示Nerver Login )</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">utmp和wtmp的区别</p>
+</div>
+<p>/var/run/utmp   &#8211;  database of currently logged-in users</p>
+<p>/var/log/wtmp  &#8211;  database of past user logins</p>
+<p>5)其他查询命令</p>
+<p>w命令查询utmp文件并显示当前系统中每个用户和它所运行的进程信息</p>
+<p>ac命令根据当前的/var/log/wtmp文件中的登录进入和退出来报告用户连结的时间（小时）</p>
+<p>users用单独的一行打印出当前登录的用户，每个显示的用户名对应一个登录会话</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">syslog</a><ul>
+<li><a class="reference internal" href="#id1">日志系统</a></li>
+<li><a class="reference internal" href="#id2">查看日志</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="index.html"
+                        title="上一章">Linux Log</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="logrotate.html"
+                        title="下一章">日志回滚</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_log/syslog.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="logrotate.html" title="日志回滚"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Linux Log"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux Log</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

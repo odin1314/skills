@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>日志回滚 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux Log" href="index.html" />
+    <link rel="next" title="&lt;no title&gt;" href="../Linux_fw/index.html" />
+    <link rel="prev" title="syslog" href="syslog.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../Linux_fw/index.html" title="&lt;no title&gt;"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="syslog.html" title="syslog"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux Log</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>日志回滚<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>为什么使用日志滚动</p>
+<p>所有的日志文件都会随着时间的推移和访问次数的增加而迅速增长，因此必须对日志文件进行定期清理以免造成磁盘空
+间的不必要的浪费。同时也加快了管理员查看日志所用的时间，因为打开小文件的速度比打开大文件的速度要快。</p>
+<p>logrotate</p>
+<p>Linux 下有一个专门的日志滚动处理程序 logrotate 能够自动完成日志的压缩、备份、删除、和日志邮寄等工作。每个日志文件都可被设置成每日，每周或每月处理，也能在文件太大时立即处理。一般把 logrota te 加入
+到系统每天执行的计划任务中，这样就省得管理员自己去处理了。</p>
+<p>其命令格式为：</p>
+<dl class="docutils">
+<dt>选项说明如下：</dt>
+<dd><ul class="first last simple">
+<li>-d：详细显示指令执行过程，便于排错或了解程序执行的情况。</li>
+<li>-f：强行启动记录文件维护操作，即使 logrota te 指令认为无需要亦然。</li>
+<li>-m comm and：指定发送邮件的程序，默认为 /usr/bin/m ail。</li>
+<li>-s sta te file：使用指定的状态文件。</li>
+<li>-v：在执行日志滚动时显示详细信息。</li>
+<li>-?：显示命令帮助。</li>
+<li>&#8211;usage：显示使用摘要信息。</li>
+</ul>
+</dd>
+</dl>
+<p>&lt;configfile&gt; 是 logrotate 命令的配置文件的路径。</p>
+<p>logrotate 的配置文件</p>
+<p>管理员可以在 logrota te 的配置文件中设置日志的滚动周期，日志的备份数目，以及如何备份日志等等。</p>
+<blockquote>
+<div><ul class="simple">
+<li>logrota te 默认的主配置文件是 /etc/logrotate.conf</li>
+<li>/etc/logrotate.d 的目录下的文件，这些文件被 include 到主配置文件 /etc/logrotate.conf 中</li>
+</ul>
+</div></blockquote>
+<p>在这些文件中可以使用如下的配置语句。</p>
+<img alt="../_images/logroateconfig.png" src="../_images/logroateconfig.png" />
+<img alt="../_images/logroateconfig2.png" src="../_images/logroateconfig2.png" />
+<ol class="arabic simple">
+<li>在 /etc/logrotate.conf 中可以使用以上的配置语句设置全局值</li>
+</ol>
+<p>2.在 /etc/logrotate.conf 中使用 include 语句包含的配置文件中也可以使用上述的配置语句，被 include 的
+配置文件中的语句会覆盖 /etc/logrotate.conf 中的配置</p>
+<ol class="arabic simple" start="3">
+<li>为指定的文件配置日志滚动使用如下的语法</li>
+</ol>
+<img alt="../_images/file.png" src="../_images/file.png" />
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="syslog.html"
+                        title="上一章">syslog</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="../Linux_fw/index.html"
+                        title="下一章">&lt;no title&gt;</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_log/logrotate.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../Linux_fw/index.html" title="&lt;no title&gt;"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="syslog.html" title="syslog"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux Log</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

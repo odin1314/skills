@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>文件查找 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux查找|过滤命令" href="index.html" />
+    <link rel="next" title="内容查找与过滤" href="content.html" />
+    <link rel="prev" title="Linux查找|过滤命令" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="content.html" title="内容查找与过滤"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Linux查找|过滤命令"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux查找|过滤命令</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>文件查找<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="find">
+<h2>find<a class="headerlink" href="#find" title="永久链接至标题">¶</a></h2>
+<p><strong>1、find 命令的格式</strong></p>
+<p>find 命令用于在文件系统中查找满足条件的文件。find 命令功能强大，提供了相当多的查找条件。find 命令还可以对查找到的文件做操作，如执行
+Shell 命令等。</p>
+<p>find 命令的格式是：</p>
+<img alt="../_images/findformat.png" src="../_images/findformat.png" />
+<p>不带任何参数的 find 命令将在屏幕上递归显示当前目录下的文件列表。下面给出一些常用的表达式的解释。</p>
+<p><strong>2、选项表达式</strong></p>
+<img alt="../_images/options.png" src="../_images/options.png" />
+<p><strong>3、条件匹配表达式</strong></p>
+<img alt="../_images/condition.png" src="../_images/condition.png" />
+<img alt="../_images/condition2.png" src="../_images/condition2.png" />
+<img alt="../_images/condition3.png" src="../_images/condition3.png" />
+<p><strong>4、动作表达式</strong></p>
+<img alt="../_images/action.png" src="../_images/action.png" />
+<p><strong>5、组合条件表达式</strong></p>
+<p>在书写表达式时，可以使用逻辑运算符与、或、非组成的复合条件，并可以用()改变默认的操作符优先级。下面以优先
+级由高到低列出可用的逻辑操作符。若以空格作为各个表达式的间隔符，则各个表示式之间是与关系。</p>
+<img alt="../_images/combine.png" src="../_images/combine.png" />
+<p><strong>6、find 命令使用举例</strong></p>
+<img alt="../_images/eg1.png" src="../_images/eg1.png" />
+<img alt="../_images/eg2.png" src="../_images/eg2.png" />
+<img alt="../_images/eg3.png" src="../_images/eg3.png" />
+<img alt="../_images/eg4.png" src="../_images/eg4.png" />
+<img alt="../_images/eg5.png" src="../_images/eg5.png" />
+<img alt="../_images/eg6.png" src="../_images/eg6.png" />
+<img alt="../_images/eg7.png" src="../_images/eg7.png" />
+<p>1)find ./ -type f -name &#8220;<a href="#id2"><span class="problematic" id="id3">*</span></a>.txt&#8221; <a href="#id4"><span class="problematic" id="id5">|</span></a>xargs -i cp {} tmp/</p>
+<p>2)用shell查询以“.”结尾的文件，并加上后缀“.ts”</p>
+<p>find ./ -name &#8220;<a href="#id6"><span class="problematic" id="id7">*</span></a>.&#8221; exec mv {} {}ats ;</p>
+<p>3)查找所有具有suid的文件</p>
+<blockquote>
+<div><p>find / -perm -4100 -exec ls -l {} ;</p>
+<p>find / -type f -perm -u=s</p>
+</div></blockquote>
+<p>4)查找所有sgid的文件</p>
+<p>find / -perm -2010 -exec ls -l {} ;</p>
+<p>5)查找同时具有suid和sgid属性的文件</p>
+<p>find / -perm -6110 -exec ls -l {} ;</p>
+<p>6)find . -type f -perm 6000   #完全匹配</p>
+<p>find . -type f -perm -6000  #有1的位置必须一样</p>
+<p>find . -type f -perm +6000  #只要有其中一个有1的匹配就行</p>
+<p>这些8进制的权限对比的时候要换成2进制形式)</p>
+<p>7)查找含有sgid权限位的目录</p>
+<p>find / -type f or type d -perm 2000</p>
+<p>find / -type f or type d -perm -g=s</p>
+<p>8)查找含有tickty权限位的目录</p>
+<p>find / -type d -perm 1000</p>
+<p>9)查看危险目录</p>
+<p>find / -perm -222 -type d</p>
+<p>find / -perm -o+w -tye d</p>
+</div>
+<div class="section" id="locate">
+<h2>Locate<a class="headerlink" href="#locate" title="永久链接至标题">¶</a></h2>
+<p>locate -r &#8220;ls$&#8221;</p>
+<p>locate -r &#8220;^ls&#8221;</p>
+<p>locate -r &#8216;^/bin.*ls$&#8217;</p>
+<p>locate -r &#8216;.*/bin.*&lt;passwd$&#8217;  #&lt;passwd 表示以passwd单词开头</p>
+<p>locate -r &#8216;.*/bin.*&lt;passwd&gt;&#8217;  #包含passwd单词即可</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">文件查找</a><ul>
+<li><a class="reference internal" href="#find">find</a></li>
+<li><a class="reference internal" href="#locate">Locate</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="index.html"
+                        title="上一章">Linux查找|过滤命令</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="content.html"
+                        title="下一章">内容查找与过滤</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_find/file.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="content.html" title="内容查找与过滤"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Linux查找|过滤命令"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux查找|过滤命令</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

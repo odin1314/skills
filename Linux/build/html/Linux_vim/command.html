@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>系统篇 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux VIM" href="index.html" />
+    <link rel="next" title="技巧篇" href="tips.html" />
+    <link rel="prev" title="安装配置篇" href="install.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="tips.html" title="技巧篇"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="安装配置篇"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux VIM</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>系统篇<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="vi">
+<h2>Vi简介<a class="headerlink" href="#vi" title="永久链接至标题">¶</a></h2>
+<p>Vi 是 “Visual interface” 的简称，它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。</p>
+<p>Vi 不是一个排版程序，它不像 M$ Word 或 WPS 那样可以对字体、格式、段落等其他属性进行编排，它只是一个文本编辑程序。</p>
+<p>Vi 是全屏幕文本编辑器，它没有菜单，只有命令。</p>
+</div>
+<div class="section" id="id2">
+<h2>进入Vi<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>在命令行下键入 vi 即可进入 Vi 界面。还有如下几种进入方法：</p>
+<img alt="../_images/vi.png" src="../_images/vi.png" />
+</div>
+<div class="section" id="vi-3">
+<h2>Vi 的3种运行模式<a class="headerlink" href="#vi-3" title="永久链接至标题">¶</a></h2>
+<p>Vi 有3种基本工作模式：普通(norm al)模式、插入(insert)模式和命令行(comm and-line 或 Cm dline)模式。</p>
+<p>进入Vi之后，首先进入的就是普通模式，进入普通模式后Vi等待编辑命令输入而不是文本输入，也就是说这时输入的字
+母都将作为命令来解释。在普通 (norm al) 模式里，你可以输入所有的普通编辑命令。普通模式亦称为命令
+(comm and) 模式。</p>
+<p>进入普通模式后光标停在屏幕第一行首位上（用_表示），其余各行的行首均有一个“~”符号，表示该行为空行。最后一
+行是状态行，显示出当前正在编辑的文件名及其状态。如果是［New File］，则表示该文件是一个新建的文件。如果输
+入Vi带文件名后，文件已在系统中存在，则在屏幕上显示出该文件的内容，并且光标停在第一行的首位，在状态行显示
+出该文件的文件名、行数和字符数</p>
+<p>在普通模式下输入插入命令i、附加命令a、打开命令o、修改命令c、取代命令r或替换命令s都可以进入插入模式。在插
+入模式下，用户输入的任何字符都被Vi当作文件内容保存起来，并将其显示在屏幕上。在文本输入过程中，若想回到命
+令行模式下，按Esc键即可。</p>
+<p>在普通模式下，执行 Ex 命令使用 :，查找使用 ? 和 /，调用过滤命令使用 !。多数文件管理命令都是在此模式下执行
+的。末行命令执行完后，Vi自动回到普通模式。</p>
+<p>关于这3种模式的转换如图所示。</p>
+<p>Vi 三种模式之间的转换示意图</p>
+<div class="section" id="id3">
+<h3>普通模式下的操作<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p>1.进入插入模式</p>
+<img alt="../_images/insert.png" src="../_images/insert.png" />
+<p>2、光标定位</p>
+<img alt="../_images/Location.png" src="../_images/Location.png" />
+<p>3、替换和删除</p>
+<img alt="../_images/replace.png" src="../_images/replace.png" />
+<p>4、复制和粘贴</p>
+<img alt="../_images/copy.png" src="../_images/copy.png" />
+<p>5、搜索字符串</p>
+<img alt="../_images/search.png" src="../_images/search.png" />
+<p>6、撤销和重复</p>
+<img alt="../_images/repeat.png" src="../_images/repeat.png" />
+<p>7、退出 Vi</p>
+<img alt="../_images/exit.png" src="../_images/exit.png" />
+</div>
+<div class="section" id="id4">
+<h3>命令行模式下的操作<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>1、跳行</p>
+<img alt="../_images/jump.png" src="../_images/jump.png" />
+<p>2、字符串搜索、替换</p>
+<img alt="../_images/str_search.png" src="../_images/str_search.png" />
+<p>vi 支持基本的正则表达式 Basic regular expre ssion (BRE)，上述命令中的 str 和 str1 可以使用正则表达式进
+行搜索。</p>
+<p>3、文本的复制、移动和删除</p>
+<img alt="../_images/text_cp.png" src="../_images/text_cp.png" />
+<p>4、文件相关</p>
+<img alt="../_images/file1.png" src="../_images/file1.png" />
+<p>5、执行 Shell 命令</p>
+<img alt="../_images/shell.png" src="../_images/shell.png" />
+<p>6、设置 Vi 环境</p>
+<img alt="../_images/setvi.png" src="../_images/setvi.png" />
+<p>7、退出 Vi</p>
+<img alt="../_images/exitvi.png" src="../_images/exitvi.png" />
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">系统篇</a><ul>
+<li><a class="reference internal" href="#vi">Vi简介</a></li>
+<li><a class="reference internal" href="#id2">进入Vi</a></li>
+<li><a class="reference internal" href="#vi-3">Vi 的3种运行模式</a><ul>
+<li><a class="reference internal" href="#id3">普通模式下的操作</a></li>
+<li><a class="reference internal" href="#id4">命令行模式下的操作</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="install.html"
+                        title="上一章">安装配置篇</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="tips.html"
+                        title="下一章">技巧篇</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_vim/command.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="tips.html" title="技巧篇"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="安装配置篇"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux VIM</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

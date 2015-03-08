@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Linux 安全加固思路 &mdash; Linux 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="Linux 1.0 文档" href="../index.html" />
+    <link rel="up" title="Linux 安全" href="index.html" />
+    <link rel="next" title="Linux VIM" href="../Linux_vim/index.html" />
+    <link rel="prev" title="download" href="download.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../Linux_vim/index.html" title="Linux VIM"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="download.html" title="download"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Linux 安全</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="linux">
+<h1>Linux 安全加固思路<a class="headerlink" href="#linux" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>物理系统的安全性<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p><strong>1.1 启动安全性</strong></p>
+<p>安全建议：</p>
+<p>配置BIOS，禁用从CD/DVD、外部设备、软驱启动。下一步，启用BIOS密码，同时启用GRUB的密码保护，这样可以限制对系统的物理访问。通过设置GRUB密码来保护Linux服务器，防止他人非法进入单用户模式损害系统</p>
+<p><strong>1.2 移动存储安全性</strong></p>
+<p>安全建议：禁止USB驱动</p>
+<p><strong>1.3 禁止组合键重启设备</strong></p>
+<p>安全建议：</p>
+<p>修改/etc/inittab</p>
+<p>#ca::ctrlaltdel:/sbin/shutdown -t3 -r now</p>
+</div>
+<div class="section" id="id2">
+<h2>打补丁补漏洞<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>安全建议：</p>
+<p>查看系统、web、数据库是否有已知漏洞，及时修补</p>
+</div>
+<div class="section" id="id3">
+<h2>主机对外通信安全性<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p><strong>3.1 禁止不安全的通信协议</strong></p>
+<p>安全建议：如果不是特别需要，则禁止以下不安全运维协议：telnet、ftp 建议使用ssh协议</p>
+<p><strong>3.2 开启主机防火墙</strong></p>
+<p>安全建议：</p>
+<p>如有必要，则开启iptables，设置白名单</p>
+<p><strong>3.3 隐藏通信协议的banner</strong></p>
+<p>安全建议：隐藏、或者伪造协议原先的banner</p>
+<p><strong>3.4 ssh 协议安全加固</strong></p>
+<p>安全建议：</p>
+<p>1)隐藏|伪造banner</p>
+<p>2)使用PROTOCOL 2版</p>
+<p>3)不允许root登录(可以通过普通用户登录然后 su -)</p>
+<p>4)不允许空口令登录</p>
+<p>5)sshd_config中配置：</p>
+<p>HostbasedAuthentication no、IgnoreRhosts yes、RhostsRSAAuthentication no</p>
+<p>6)禁止端口转发</p>
+<p>7)对于安全性特别重要的设备，启用公钥认证而非口令认证</p>
+<p>8)对于重要的设备，ssh的密钥长度可以设置长一些</p>
+<p>9)如果需要限制用户登录</p>
+<p><strong>3.5 主机监听端口信息核查</strong></p>
+<p>安全建议：执行:netstat –anlp</p>
+<p>观察是否有异常端口在监听</p>
+<p><strong>3.6 屏蔽ICMP和Broadcast请求</strong></p>
+<p>安全建议：修改/etc/sysctl.conf,增加</p>
+<p>net.ipv4.icmp_echo_ignore_all = 1</p>
+<p>net.ipv4.icmp_echo_ignore_broadcasts = 1</p>
+<p>保存退出，执行sysctl –p</p>
+</div>
+<div class="section" id="id4">
+<h2>系统账户密码安全性<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p><strong>4.1 删除不必要的账户和用户组</strong></p>
+<p>安全建议：检查/etc/passwd 和/etc/group 删除多余的账户(组)</p>
+<p><strong>4.2 删除空口令账户</strong></p>
+<p>安全建议:</p>
+<p>cat /etc/shadow | awk -F: &#8216;($2==&#8221;&#8221;){print $1}&#8217;</p>
+<p>删除有空口令的账户或者重新设置密码</p>
+<p><strong>4.3 检查系统密码策略</strong></p>
+<p>安全建议：
+查看系统默认密码安全策略，酌情增加密码强度设置</p>
+<p>cat /etc/login.defs|grep PASS查看密码策略设置</p>
+<p>#vi /etc/login.defs修改配置文件</p>
+<p>PASS_MAX_DAYS 90 #新建用户的密码最长使用天数</p>
+<p>PASS_MIN_DAYS 0 #新建用户的密码最短使用天数</p>
+<p>PASS_WARN_AGE 7 #新建用户的密码到期提前提醒天数</p>
+<p>PASS_MIN_LEN 9 #最小密码长度9</p>
+<p><strong>4.4 检查系统账户中是否有采取额外认证的账户</strong></p>
+<p>安全建议</p>
+<p>执行：grep &#8216;^+:&#8217; /etc/passwd</p>
+<p>如果有返回结果，说明相应的账户采用了额外认证</p>
+<p>如果采用了额外认证，则需确认这种认证是否安全</p>
+<p><strong>4.5 核查系统是否有采用额外认证方式</strong></p>
+<p>安全建议：</p>
+<p>执行：grep &#8216;^passwd&#8217; /etc/nsswitch.conf  | grep &#8216;nis&#8217;   &#8211;表示nis认证</p>
+<p>grep &#8216;^passwd&#8217; /etc/nsswitch.conf  | grep &#8216;ldap&#8217;  &#8211;表示ldap认证</p>
+<p>如果采用了额外认证，则需确认这种认证是否安全</p>
+<p><strong>4.6 账户信息文件的安全性</strong></p>
+<p>安全建议：</p>
+<p>检查passwd shadow group 等账户文件权限设置是否异常</p>
+<p><strong>4.7 核查系统中UID为0的用户</strong></p>
+<p>安全建议：</p>
+<p>执行：cat /etc/passwd|awk -F: &#8216;{if($3==0){print $1}}&#8217;</p>
+<p>观察是否有除了默认的root之外的用户</p>
+<p><strong>4.8 核查系统中GID为0的组成员</strong></p>
+<p>安全建议：</p>
+<p>执行：cat /etc/group|awk -F: &#8216;{if($3==0){print $4}}&#8217;</p>
+<p>观察是否GID为0的组有非root成员</p>
+<p><a href="#id5"><span class="problematic" id="id6">**</span></a>4.9 限制能用su 命令获取root权限的用户列表 **</p>
+<p>安全建议：</p>
+<p>编辑/etc/pam.d/su</p>
+<p>增加：auth required /lib/security/pam_wheel.so group=wheel</p>
+<p>表示只允许wheel组的用户通过su 切换到root权限</p>
+<p>然后将允许的用户加入到wheel 组中</p>
+<p>usermod -G wheel test100</p>
+<p>如果是禁止非root用户使用su，一个一劳永逸的办法就是chmod 700 su</p>
+<p><strong>4.10 限制能使用sudo 命令的用户</strong></p>
+<p>安全建议：</p>
+<p>grep -v &#8216;^#&#8217; /etc/sudoers | grep -v &#8216;^[ t]*$&#8217; | grep -v &#8216;^[ t]*Default&#8217; | grep = 查找sudoers添加的用户</p>
+<p>编辑/etc/sudoers</p>
+<p>删除无关用户</p>
+<p>如：删除wenjian ALL=(root) ALL，则表示不允许wenjian这个用户使用sudo命令</p>
+<p><strong>4.11 对于登陆次数超过一定次数就锁定账户一段时间</strong></p>
+<p>安全建议：</p>
+<p>编辑/etc/pam.d/login,增加</p>
+<p>auth      required  pam_tally2.so   deny=3  lock_time=300 even_deny_root root_unlock_time=1</p>
+<p>各参数解释</p>
+<p>even_deny_root  也限制root用户；</p>
+<p>deny    设置普通用户和root用户连续错误登陆的最大次数，超过最大次数，则锁定该用户</p>
+<p>lock_time       设定普通用户锁定后，多少时间后解锁，单位是秒；</p>
+<p>root_unlock_time        设定root用户锁定后，多少时间后解锁，单位是秒</p>
+<p>此处使用的是 pam_tally2 模块，如果不支持 pam_tally2 可以使用 pam_tally 模块。另外，不同的pam版本，设置可能有所不同，具体使用方法，可以参照相关模块的使用规则。</p>
+<p>注：本例是以PAM1.0为参考</p>
+</div>
+<div class="section" id="bash">
+<h2>bash安全加固<a class="headerlink" href="#bash" title="永久链接至标题">¶</a></h2>
+<p><strong>5.1 查看当前shell环境所有的alias，观察是否异常</strong></p>
+<p>安全建议:</p>
+<p>当前shell环境执行：alias 命令，观察输出结果是否有非法添加的alias</p>
+<p><strong>5.2 核查bash初始化脚本，检查内容是否有非法添加设置</strong></p>
+<p>安全建议:</p>
+<p>检查：/etc/profile</p>
+<p>/etc/bash.bashrc</p>
+<p>/etc/bash_completion</p>
+<p>~/.bashrc</p>
+<p>~/.bash_profile</p>
+<p>~/.bash_login</p>
+<p>~/.bash_logout</p>
+<p>核查是否有非法添加内容</p>
+<p>可参考设置：</p>
+<p>ln -s /dev/null ~.bash_history</p>
+<p>chattr +a ~/.bash_profile</p>
+<p>chattr +a ~/.bash_login</p>
+<p>chattr +a ~/.profile</p>
+<p>chattr +a ~/.bash_logout</p>
+<p>chattr +a ~/.bashrc</p>
+<p>readonly HISTFILE
+readonly HISTFILESIZE
+readonly HISTSIZE
+readonly HISTCMD
+readonly HISTCONTROL
+readonly HISTIGNORE</p>
+<p>unset HISTFILE</p>
+<p>unset HISTFILESIZE</p>
+<p>unset HISTSIZE</p>
+<p>unset HISTCMD</p>
+<p>unset HISTCONTROL</p>
+<p>unset HISTIGNORE</p>
+<p>禁掉系统中所有其他shell，一般包括csh,tcsh,ksh。</p>
+<p><strong>5.3核查 bash中umask设置的值</strong></p>
+<p>安全建议：</p>
+<p>检查：/etc/profile</p>
+<p>/etc/bash.bashrc</p>
+<p>/etc/bash_completion</p>
+<p>~/.bashrc</p>
+<p>~/.bash_login</p>
+<p>~/.bash_profile</p>
+<p>中umask的设置，正确的设置一般为022</p>
+<p><strong>5.4 减少bash中历史命令数目，或者禁止历史命令记录</strong></p>
+<p>安全建议：设置环境变量</p>
+<p>HISTFILE=/dev/null</p>
+<p>HISTSIZE=0</p>
+<p><strong>5.5 查看bash是否有bash破壳漏洞</strong></p>
+<p>安全建议：</p>
+<p>1)bash –version</p>
+<p>当你的GNU Bash 版本小于等于4.3，则存在此漏洞</p>
+<p>2)执行env x=&#8217;() { :;}; echo shellshocked&#8217; bash -c &#8220;test&#8221;</p>
+<p>如果出现图上的回显内容，则说明存在此漏洞</p>
+<p>如果存在此漏洞，请升级bash</p>
+<p><strong>5.6设置环境变量TMOUT值，设置自动注销时间</strong></p>
+<p>安全建议：</p>
+<p>export TMOUT=120</p>
+<p>表示如果用户登录主机2分钟内没有操作，则自动注销用户登录</p>
+</div>
+<div class="section" id="id7">
+<h2>核查进程运行的权限<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p>安全建议：</p>
+<p>核查系统以后root权限运行的进行并予以确认</p>
+<p>ps –U root</p>
+<p>非系统核心进程禁止以root权限运行</p>
+</div>
+<div class="section" id="id8">
+<h2>敏感文件核查<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<p>安全建议</p>
+<p>1)核查有SUID权限的文件，并仔细确认是否异常</p>
+<p>find / -type f -perm 4100 2&gt;/dev/null</p>
+<p>2)核查系统主要配置文件权限、属主、内容是否有异常</p>
+<p>这些配置文件主要有：</p>
+<p>/etc/passwd</p>
+<p>/etc/shadow</p>
+<p>/etc/group</p>
+<p>/etc/profile</p>
+<p>/etc/fstab</p>
+<p>/etc/xinet.d/*</p>
+<p>/etc/sudoers</p>
+<p>/etc/contab</p>
+<p>/etc/xinetd.conf</p>
+<p>/etc/inetd.conf</p>
+<p>以上文件的用户和组都是root，除了shadow默认的600权限一以外，其他全是644，请注意核查是否异常</p>
+<p>3)核查自启动服务的配置文件</p>
+<p>主要有</p>
+<p>/etc/init.d/rc</p>
+<p>/etc/init.d/rcS</p>
+<p>/sbin/shutdown</p>
+<p>/sbin/sulogin</p>
+<p>/etc/init.d/*</p>
+<p>对于以上这些文件的核查请使用亚信安全核查脚本./Security_check.sh</p>
+<p>5）与计划任务有关文件核查</p>
+<p>主要有</p>
+<p>/etc/cron.d/*</p>
+<p>/etc/crontab</p>
+<p>/etc/cron.daily</p>
+<p>/etc/cron.hourly</p>
+<p>/etc/cron.monthly</p>
+<p>/etc/cron.weekly</p>
+<p>以上这些文件只有root具有可写权限</p>
+<p>请确保没有非法加入的计划任务</p>
+<p>6）系统其他敏感文件异常核查</p>
+<p>使用unix-privesc-check-1.4 或者rkhunter工具扫一扫</p>
+</div>
+<div class="section" id="id9">
+<h2>日志安全性<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<p>安全建议：</p>
+<p>系统主要日志有：</p>
+<p>/var/log/message – 记录系统日志或当前活动日志，只有root可读写，其他用户无读写权限</p>
+<p>/var/log/auth.log – 身份认证日志。只有root可读写，其他用户无读写权限</p>
+<p>/var/log/kern.log – 内核日志。只有root可读写，其他用户无读写权限</p>
+<p>/var/log/cron.log – Crond 日志 (cron 任务). 只有root可读写，其他用户无读写权限</p>
+<p>/var/log/mail.log – 邮件服务器日志。只有root可读写，其他用户无读写权限</p>
+<p>/var/log/boot.log – 系统启动日志。只有root可读写，其他用户无读写权限</p>
+<p>/var/log/secure – 认证日志。只有root可读写，其他用户无读写权限</p>
+<p>/var/log/utmp or /var/log/wtmp :登录日志。只有root可读写，其他用户无读写权限</p>
+<p>/var/log/yum.log: Yum 日志。只有root可读写，其他用户无读写权限</p>
+<p>定期核查日志内容，观察是否有异常</p>
+</div>
+<div class="section" id="id10">
+<h2>备份<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h2>
+<p>安全建议:</p>
+<p>重要文档定期备份</p>
+</div>
+<div class="section" id="id11">
+<h2>维护主机的安全性<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h2>
+<p>安全建议：</p>
+<p>平时运维用户的客户机也要保证安全性</p>
+<p>1)用主流杀软扫一遍</p>
+<p>2)使用的运维软件如putty、winscp、CRT尽量不要保存密码</p>
+<p>每次使用输入。如果要保存，也一定要保证保存密码相关文件的安全性</p>
+</div>
+<div class="section" id="portspoof">
+<h2>主动防御(portspoof)<a class="headerlink" href="#portspoof" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id12">
+<h3>简介<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
+<p>portspoof 主动防御的艺术</p>
+<p>Portspoof程序旨在通过在原本封闭的端口上模拟仿真合法的服务签名，加强操作系统的安全性。它本来就是一个轻便、快速、便携、安全的附件，可以添加到任何防火墙系统或安全基础设施上。</p>
+<p>这款程序的基本目的就是，让端口扫描软件(Nmap/Unicornscan/等)进程运行缓慢，让输出结果非常难以解读，从而使攻击侦察阶段成为一项难度大又麻烦的任务。</p>
+<p>我发觉这个小程序背后的概念很有意思：不是用防火墙堵住所有端口，而是欺骗真实端口，因而让针对你的服务器/计算机运行端口扫描的那些家伙无功而返。</p>
+<p>Portspoof程序的主要目的是，通过攻击者对你系统进行侦察的过程中减缓攻击者攻击速度，并阻止攻击者保持低调的一系列技巧，加强操作系统的安全性。</p>
+<p>默认情况下，攻击者的侦察阶段应该很费时，而且很容易被你的入侵检测系统所发现。</p>
+<p>这种方法纯粹基 于主动(进攻性)防御理念。</p>
+<p>特点</p>
+<blockquote>
+<div><ul class="simple">
+<li>快速：多线程(默认情况下10个线程处理新的入站连接)。</li>
+<li>轻便：所需的系统资源数量极少。</li>
+<li>便携：可以在Linux和BSD(直到版本0.3)上运行。</li>
+<li>灵活：你可以轻松使用防火墙规则，定义将被欺骗的端口。</li>
+<li>对付流行的端口扫描工具很有效。</li>
+<li>超过8000多个假签名可以骗倒端口扫描工具!</li>
+<li>采用开源技术。</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id13">
+<h3>安装与配置<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
+</div>
+<div class="section" id="id14">
+<h3>思考<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Linux 安全加固思路</a><ul>
+<li><a class="reference internal" href="#id1">物理系统的安全性</a></li>
+<li><a class="reference internal" href="#id2">打补丁补漏洞</a></li>
+<li><a class="reference internal" href="#id3">主机对外通信安全性</a></li>
+<li><a class="reference internal" href="#id4">系统账户密码安全性</a></li>
+<li><a class="reference internal" href="#bash">bash安全加固</a></li>
+<li><a class="reference internal" href="#id7">核查进程运行的权限</a></li>
+<li><a class="reference internal" href="#id8">敏感文件核查</a></li>
+<li><a class="reference internal" href="#id9">日志安全性</a></li>
+<li><a class="reference internal" href="#id10">备份</a></li>
+<li><a class="reference internal" href="#id11">维护主机的安全性</a></li>
+<li><a class="reference internal" href="#portspoof">主动防御(portspoof)</a><ul>
+<li><a class="reference internal" href="#id12">简介</a></li>
+<li><a class="reference internal" href="#id13">安装与配置</a></li>
+<li><a class="reference internal" href="#id14">思考</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="download.html"
+                        title="上一章">download</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="../Linux_vim/index.html"
+                        title="下一章">Linux VIM</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Linux_security/Security_Hardening.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../Linux_vim/index.html" title="Linux VIM"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="download.html" title="download"
+             >上一页</a> |</li>
+        <li><a href="../index.html">Linux 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >Linux 安全</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>
