@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>WAF基本功 &mdash; waf 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="waf 1.0 文档" href="../index.html" />
+    <link rel="prev" title="大话WAF" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../index.html" title="大话WAF"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">waf 1.0 文档</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="waf">
+<h1>WAF基本功<a class="headerlink" href="#waf" title="永久链接至标题">¶</a></h1>
+<p>主要整理了WAF基本知识，算是科普吧</p>
+<div class="section" id="id1">
+<h2>什么是WAF<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>Web Application Firewall, 简称：WAF</p>
+<p>代表了一类新兴的信息安全技术，用以解决诸如防火墙一类传统设备束手无策的Web应用安全问题。与传统防火墙不同，WAF工作在应用层，因此对Web应用防护具有先天的技术优势。
+基于对Web应用业务和逻辑的深刻理解，WAF对来自Web应用程序客户端的各类请求进行内容检测和验证，确保其安全性与合法性，对非法的请求予以实时阻断，从而对各类网站站点进行有效防护。</p>
+</div>
+<div class="section" id="id2">
+<h2>WAF被需要的原因<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>WEB服务器以其强大的计算能力、处理性能及蕴含的较高价值逐渐成为主要攻击目标。SQL注入、网页篡改、网页挂马等安全事件，频繁发生。
+要彻底解决此类漏洞的代码审计和代码修补往往需要较长的时间，由此产生了WAF（Web应用防护系统）</p>
+</div>
+<div class="section" id="id3">
+<h2>WAF的分类<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p><strong>1、从定义上分类</strong></p>
+<p>1)硬件WAF</p>
+<p>以传统安全厂商的WAF产品为例，如绿盟、启明的WAF产品</p>
+<p>2)软件WAF</p>
+<blockquote>
+<div><ul class="simple">
+<li>ModSecurity ：开源WAF，可作为apache的一个模块</li>
+<li>phpids ：为PHP应用设计的WAF系统</li>
+<li>WebKnight ：集成到IIS的过滤器</li>
+</ul>
+</div></blockquote>
+<p>3)代码级WAF</p>
+<p>使用脚本语言实现的过滤器模式</p>
+<p>这种机制本质上属于应用程序安全架构的范畴，它是遵循安全编码最佳实践的产物。就PHP Web应用来说，可以在php.ini中修改：</p>
+<div class="highlight-python"><div class="highlight"><pre>; Automatically add files before PHP document.
+; auto-prepend-fileauto_prepend_file =
+; Automatically add files after PHP document.
+; auto-append-fileauto_append_file =
+</pre></div>
+</div>
+<p>配置指令，这些指令指向那些在每个请求的PHP脚本执行&#8221;之前&#8221;和&#8221;之后&#8221;才执行的PHP文件。这样就可以在各种HTTP请求集合(GET,POST,COOKIE)之前对数据进行一些前发处理。</p>
+<p>一些开源的web框架如CodeIgniter 会采用一些Global Routing全局路由机制来改变原本的HTTP交互流程，从而使程序猿有机会hook住一些关键的处理逻辑，在进入核心代码前对用户发送的数据进行处理。</p>
+<p><a class="reference external" href="http://codeigniter.org.cn/user_guide/general/routing.html">http://codeigniter.org.cn/user_guide/general/routing.html</a></p>
+<p>还可以使用web应用的编程语言来实现过滤器。模块代码可以在请求和响应阶段之间进行执行。</p>
+<p><strong>2、从WAF架构上分类</strong></p>
+<p>1)本机服务默默快模式</p>
+<img alt="../_images/host-waf.png" src="../_images/host-waf.png" />
+<p>通过在Apache，IIS等Web服务器内嵌实现检测引擎，所有请求的出入流量均先经过检测引擎的检测，如果请求无问 题则调用CGI处理业务逻辑，如果请求发现攻击特征，再根据配置进行相应的动作。
+以此对运行于Web服务器上的网站进 行安全防护。著名的安全开源项目ModSecurity及naxsi防火墙就是此种模式。</p>
+<dl class="docutils">
+<dt>优点：</dt>
+<dd><p class="first">I、网络结构简单，不需要改变网络拓扑，只需要部署Web服务器的安全模块</p>
+<p>II、无单点故障</p>
+<p class="last">III、加密或压缩内容没问题。许多IDS系统分析SSL流量的时候很困难，但对于如ModSecurity这样内嵌模式工作的waf没有麻烦，因为它工作于已解密和解压的数据环节。</p>
+</dd>
+</dl>
+<p>挑战：</p>
+<blockquote>
+<div><p>I、维护困难。当有大规模的服务器集群时，任何更新都涉及到多台服务器。</p>
+<p>II、需要部署操作，在面临大规模部署时成本较高。</p>
+<p>III、无集中化的数据中心。针对安全事件的分析往往需要有集中式的数据汇总，而此种模式下用户请求数据分散在各个Web服务器上。</p>
+</div></blockquote>
+<p>2)反向代理模式</p>
+<img alt="../_images/proxy-waf.png" src="../_images/proxy-waf.png" />
+<p>使用这种模式的方案需要修改DNS，让域名解析到反向代理服务器。当用户向某个域名发起请求时，请求会先经过反 向代理进行检测，检测无问题之后再转发给后端的Web服务器。
+这种模式下，反向代理除了能提供Web安全防护之外， 还能充当抗DDoS攻击，内容加速（CDN）等功能。云安全厂商CloudFlare采用这种模式。</p>
+<dl class="docutils">
+<dt>优点：</dt>
+<dd><p class="first">I、集中式的流量出入口。可以针对性地进行大数据分析。</p>
+<p class="last">II、部署方便。可多地部署，附带提供CDN功能。</p>
+</dd>
+<dt>挑战：</dt>
+<dd><p class="first">I、动态的额外增加一层。会带来用户请求的网络开销等。</p>
+<p>II、站点和后端Web服务器较多的话，转发规则等配置较复杂。</p>
+<p class="last">III、流量都被捕捉，涉及到敏感数据保护问题，可能无法被接受。</p>
+</dd>
+</dl>
+<p>注：如果是类似传统安全厂商的ADC设备，也提供WAF功能，也是一种基于反向代理的实现，不过与上面所涉及的相比还有会如：</p>
+<blockquote>
+<div>处理能力不足，成本高，无法统一大数据分析等挑战</div></blockquote>
+<p>3)硬件防护设备</p>
+<img alt="../_images/yingwaf.png" src="../_images/yingwaf.png" />
+<p>这种模式下，硬件防护设备串在网络链路中，所有的流量经过核心交换机引流到防护设备中，在防护设备中对请求进行检测，
+合法的请求会把流量发送给Web服务器。当发现攻击行为时，会阻断该请求，后端Web服务器无感知到任何请 求。防护设备厂商如imperva等使用这种模式。</p>
+<p>优点：</p>
+<blockquote>
+<div>I、对后端完全透明,服务器无需做任何修改</div></blockquote>
+<dl class="docutils">
+<dt>挑战：</dt>
+<dd><p class="first">I、部署需改变网络架构，额外的硬件采购成本。</p>
+<p>II、如Web服务器分布在多个IDC，需在多个IDC进行部署。</p>
+<p>II、流量一直在增加，需考虑大流量处理问题。以及流量自然增长后的升级维护成本。</p>
+<p class="last">IV、规则依赖于厂商，无法定制化，不够灵活。</p>
+</dd>
+</dl>
+<p>4)服务器模块+检测云模式</p>
+<img alt="../_images/yunwaf.png" src="../_images/yunwaf.png" />
+<p>这种模式其实是方案1)的增强版，也会在Web服务器上实现安全模块。不同点在于，安全模块的逻辑非常简单，只是 充当桥梁的作用。检测云则承担着所有的检测发现任务。
+当安全模块接收到用户的请求时，会通过UDP或者TCP的方式， 把用户请求的HTTP文本封装后，发送到检测云进行检测。
+当检测无问题时，告知安全模块把请求交给CGI处理。当请求中检测到攻击特征时，则检测云会告知安全模块阻断请求。这样所有的逻辑、策略都在检测云端。</p>
+<p>优点：</p>
+<blockquote>
+<div><p>I、维护问题 假如使用1)方案，当面临更新时，无法得到及时的响应。同时，由于安全逻辑是嵌入到Web服务器中的，任何变更都存在 影响业务的风险，这是不能容忍的。</p>
+<p>II、网络架构 如果使用方案2)，则需要调动大量的流量，同时需要提供一个超大规模的统一接入集群。而为了用户就近访问提高访问速 度，接入集群还需要在全国各地均有部署，对于安全团队来说，成本和维护难度难以想象</p>
+</div></blockquote>
+<p>挑战：</p>
+<blockquote>
+<div><p>I、网络延时 采用把检测逻辑均放在检测云的方式，相对于A来说，会增加一定的网络开销。不过，如果检测云放在内网里，这个问题 就不大，99%的情况下，同城内网发送和接收一个UDP包只需要1ms。</p>
+<p>II、性能问题： 由于是把全量流量均交给集中的检测云进行检测，大规模的请求可能会带来检测云性能的问题。这样在实现的时候就需要 设计一个好的后端架构，必须充分考虑到负载均衡，流量调度等问题。</p>
+<p>III、部署问题： 该方案依然需要业务进行1次部署，可能会涉及到重编译web服务器等工作量，有一定的成本。并且当涉及到数千个域名时，问题变的更为复杂。可能需要区分出高危业务来对部署有一个前后顺序，并适时的通过一些事件来驱动部署。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h2>WAF的特性<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p><strong>1、异常检测协议</strong></p>
+<p>Web应用防火墙会对HTTP的请求进行异常检测，拒绝不符合HTTP标准的请求。并且，它也可以只允许HTTP协议的部分选项通过，从而减少攻击的影响范围。甚至，一些Web应用防火墙还可以严格限定HTTP协议中那些过于松散或未被完全制定的选项。</p>
+<p>RFC对HTTP的数据包格式有明确的定义: <a class="reference external" href="http://www.rfc-editor.org/rfc/rfc2068.txt">http://www.rfc-editor.org/rfc/rfc2068.txt</a> 。正常情况下，应用收到的HTTP数据包应该符合这个规定的范畴内，除此之外，在具体的应用中对HTTP Header中的字段的数据类型以及参数长度都有明确的规定，如果超过了这个范畴，也会造成安全问题。</p>
+<p>利用场景：</p>
+<blockquote>
+<div><ul>
+<li><ol class="first arabic">
+<li><p class="first">Http Split攻击(CRLF攻击的一种)</p>
+<blockquote>
+<div><p><a class="reference external" href="http://resources.infosecinstitute.com/http-response-splitting">http://resources.infosecinstitute.com/http-response-splitting</a>-attack利用了服务器处理HTTP协议格式的机制漏洞，向HTTP数据包中注入CRLF，从而将当前的HTTP数据隔断成2个数据包，使攻击者有机会控制当前的HTTP响应和下一次的HTTP响应)</p>
+</div></blockquote>
+</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="2">
+<li><p class="first">利用cookie信息超过一定的长度限制来绕过Cookie中的HttpOnly(XSS攻击)</p>
+<blockquote>
+<div><p>在道哥的《白帽子讲web安全》中提到这叫Server Limit DOS攻击。</p>
+</div></blockquote>
+</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="3">
+<li><p class="first">慢速HTTP请求的DOS攻击</p>
+<blockquote>
+<div><p>(其原理是以极低的速度往服务器发送HTTP请求,在正常的HTTP包头中，是以两个CLRF表示HTTP Header部分结束的。由于web server只收到了一个rn，因此将认为HTTP Header部分没有结束，并保持此连接不释放，继续等待完整的请求，以此来造成和TCP半开连接DDOS攻击相同的攻击效果，应该说原理都是一样的)</p>
+</div></blockquote>
+</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="4">
+<li><p class="first">X-Forward- For注入</p>
+<blockquote>
+<div><p>(一些应用会对用户登录时所在的IP地址或代理服务器的来源做记录，并保存到数据库中，如果没有使用正则强制限制为IP格式的话，可能会造成SQL注入)</p>
+</div></blockquote>
+</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="5">
+<li><p class="first">本地变量覆盖攻击</p>
+<blockquote>
+<div><p>当目标应用开启了register_global、使用extract()，或者使用了动态变量本地注册的模拟register_global时，如果不对用户发送的参数的个数和范围做限制。即区分哪些是应该允许提交的，哪些是不允许提交的参数，则可能导致本地变量覆盖漏洞。</p>
+</div></blockquote>
+</li>
+</ol>
+</li>
+</ul>
+</div></blockquote>
+<p>本地变量覆盖可能造成很严重的代码逻辑绕过，因为代码中，往往是使用类似 if($var){…}这样的形式来控制代码逻辑的，而通过本地变量覆盖可以改变$var的值甚至数据类型，即代码中的关键跳被攻击者控制了，很容易造成关键的防御代码被绕过。</p>
+<blockquote>
+<div><ul>
+<li><ol class="first arabic" start="6">
+<li><p class="first">变量类型导致目标应用程序运行报错信息泄漏攻击</p>
+<blockquote>
+<div><p>(未对提交的参数的数据类型进行检测导致的漏洞)</p>
+</div></blockquote>
+</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="7">
+<li><p class="first">HTTP Parameter Pollution</p>
+<blockquote>
+<div><p>HPP攻击，通过GET或POST向服务器发起请求时，提交两个相同的参数，那么服务器会产生一些特殊的行为。</p>
+</div></blockquote>
+</li>
+</ol>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>2、基于规则的保护和基于异常的保护</strong></p>
+<p>基于规则的保护可以提供各种Web应用的安全规则，WAF生产商会维护这个规则库，并时时为其更新。用户可以按照这些规则对应用进行全方面检测。</p>
+<p>ModSecurity和PHPIDS都是使用规则的保护模式。</p>
+<p>还有的产品可以基于合法应用数据建立模型，并以此为依据判断应用数据的异常。但这需要对用户企业的应用具有十分透彻的了解才可能做到。往往需要结合模式识别
+中的自学习思想，前期使用大量的样本对分析器进行学习，以此来建立一种概率统计下的识别模式，更多的来说是行为模式，比如正常用户的URL跳转流程，每分
+钟发送HTTP请求数量，HTTP包平均大小等。</p>
+<p><strong>3、状态管理</strong></p>
+<p>WAF能够判断用户是否是第一次访问并且将请求重定向到默认登录页面并且记录事件。通过检测用户的整个操作行为我们可以更容易识别攻击。状态管理模式还能检测出异常事件（比如登陆失败），并且在达到极限值时进行处理。这对暴力攻击的识别和响应是十分有利的。</p>
+<p><strong>4、URL策略/页面层策略</strong></p>
+<p>WAF可以在不修改源代码的情况下，为易受攻击的URL或页面打虚拟补丁。</p>
+<p>1)页面覆写</p>
+<p>2)URL重写</p>
+<p>URL重写是一种与页面覆写类似的技术。可以通过
+配置Web服务器或应用框架来接收那些发送给易受攻击页面或URL的请求，并将它们重定向到该页面的替代版本</p>
+</div>
+<div class="section" id="id5">
+<h2>WAF的实现<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>WAF一句话描述，就是解析HTTP请求（协议解析模块），规则检测（规则模块），做不同的防御动作（动作模块），并将防御过程（日志模块）记录下来。不管硬件款，软件款，云款，核心都是这个，
+而接下来围绕这句话来YY WAF的实现。WAF的实现由五个模块(配置模块、协议解析模块、规则模块、动作模块、错误处理模块）组成</p>
+<div class="section" id="id6">
+<h3>配置模块<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<img alt="../_images/waf-config-module.png" src="../_images/waf-config-module.png" />
+</div>
+<div class="section" id="id7">
+<h3>协议解析模块（重点）<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p>协议解析的输出就是下一个模块规则检测时的操作对象，解析的粒度直接影响WAF防御效果。对于将WAF模块寄生于web 服务器的云WAF模式，一般依赖于web 服务器的解析能力。</p>
+<img alt="../_images/waf-analyse_module.png" src="../_images/waf-analyse_module.png" />
+</div>
+<div class="section" id="id8">
+<h3>规则模块（重点）<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p>重点来了，这块是WAF的核心，我将这块又细分为三个子模块。</p>
+<p><strong>1) 规则配置模块</strong></p>
+<p>IP黑白名单配置、 URL黑白名单配置、以及挑选合适的规则套餐。</p>
+<p><strong>2)规则解析模块</strong></p>
+<p>主要作用是解析具体的规则文件，规则最好采用统一的规则描述语言，便于提供给第三方定制规则，ModSecurity这方面做得非常优秀。</p>
+<p>规则文件由四部分组成，分为变量部分、操作符部分，事务函数部分与动作部分。</p>
+<img alt="../_images/waf-rule-analyse.png" src="../_images/waf-rule-analyse.png" />
+<p><strong>3)规则检测模块</strong></p>
+<p>上一步我们设置了各种变量，接下来就是按照一定的逻辑来做加减乘除了。</p>
+<img alt="../_images/waf-rule-detect.png" src="../_images/waf-rule-detect.png" />
+</div>
+<div class="section" id="id9">
+<h3>动作模块（重点）<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<p>通过规则检测模块，我们识别了请求的好恶，接下来就是做出响应，量刑处理，不仅仅是拦截。</p>
+<img alt="../_images/waf-action.png" src="../_images/waf-action.png" />
+</div>
+<div class="section" id="id10">
+<h3>日志模块（重点）<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<p>日志处理，非常重要，也非常火热，内容丰富到完全可以从WAF独立出来形成单独的安全产品（e.g.日志宝）而采用提供接口的方式来支撑WAF。对于数据量巨大的云WAF，都会有单独的大数据团队来支撑架构这一块，
+包括数据存储（e.g. hdfs) ，数据传输(kafka)，数据离线分析（hadoop/spark），数据实时分析（storm），数据关联分析（elasticsearch)等等，以后另开一篇单独说明。</p>
+<img alt="../_images/waf-log.png" src="../_images/waf-log.png" />
+</div>
+<div class="section" id="id11">
+<h3>错误处理模块<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
+<p>以上模块运行错误时的异常处理</p>
+</div>
+</div>
+<div class="section" id="id12">
+<h2>WAF规则(策略)维护<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h2>
+<img alt="../_images/rule-Maintain.png" src="../_images/rule-Maintain.png" />
+</div>
+<div class="section" id="id13">
+<h2>WAF支撑信息库<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h2>
+<img alt="../_images/support.png" src="../_images/support.png" />
+</div>
+<div class="section" id="id14">
+<h2>如何辨别WAF<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h2>
+<p><strong>1、Citrix Netscaler</strong></p>
+<p>”Citrix Netscaler”会在HTTP返回头部Cookie位置加入”ns_af”的值，可以以此判断为Citrix Netscaler的WAF</p>
+<p><strong>2、F5 BIG IP ASM</strong></p>
+<p>F5 BiG IP ASM会在Cookie中加入”TS+随机字符串”的Cookie信息，一个非恶意的请求如下：</p>
+<p><strong>3、Mod_Security</strong></p>
+<p>Mod_Security是为Apache设计的开源Web防护模块，对于一个恶意的请求Mod_Security会在响应头返回&#8221;HTTP/1.1 406 Not Acceptable&#8221;的信息。</p>
+<p><strong>4、WebKnight</strong></p>
+<p>WebKnight是用来设计在IIS下面使用的WAF设备，较为常见。WebKnight会对恶意的请求会在响应头返回&#8221;999 No Hacking&#8221;的信息。</p>
+<p><strong>5、F5 BIG IP</strong></p>
+<p>F5 BIG IP会对恶意请求会在响应头返回&#8221;419 Unknown&#8221;的信息</p>
+<p><strong>6、dotDefender</strong></p>
+<p>dotDefender用来防护.net的程序，也比较出名，对恶意请求会在相应body中返回&#8221;dotDefender Blocked Your Request&#8221;的信息。</p>
+<p>&lt;title&gt;dotDefender Blocked Your Request&lt;/title&gt;</p>
+<p><strong>7、特定资源文件</strong></p>
+<p>部分特定WAF在返回的告警页面含特定的CSS或者JS文件，可以作为判断的依据，这类情况在WAF类里比较少，实际也可以归并到HTTP响应中。</p>
+</div>
+<div class="section" id="id15">
+<h2>WAF识别扫描器原理<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h2>
+<p>web攻击的探测阶段，80%使用扫描器进行探测。
+waf 接收到请求会解析数据包，然后过一遍规则，过完成百上千条规则必定对性能有一定的影响。如果能识别出来是人还是扫描器的请求，
+就可以在这方面节省很大的资源。</p>
+<p><strong>1、识别思路</strong></p>
+<p>目前全能型的扫描器主要是 wvs（Acunetix Web Vulnerability Scanner）、
+AppScan、WebInspect，国内的像 aisec、bugscan 等等…还有国内那些老安全厂
+商的扫描器就不说了，主要提一 下像 wvs 这种使用率比较高的。另外还有目录
+文件型的扫描器(pker、dirbruter、fimap)、注入工具(类似 sqlmap、Havij)等等。</p>
+<p>扫描器识别主要从以下几点来做：</p>
+<blockquote>
+<div><p><strong>I、 扫描器指纹(head 字段/请求参数值等)</strong></p>
+<p>目前最常见的手法就是收集扫描器的指纹特征来做识别，不同的扫描器都有自己
+的一些特征，比如发出的请求会加一些特定的 head 字段，测试漏洞的请求参数
+的值会带上自己扫描器的名称等。</p>
+<p><strong>II、 单 IP+ cookie 某时间段内触发规则次数</strong></p>
+<p>根据某个 IP+ cookie 某时间段内触发 waf 拦截规则的次数大于设定的某个阀值，
+比如在 20 秒内，某个 IP+cookie 触发 waf 拦截规则 10 次。</p>
+<p>另外还可以根据 IP+user angent 等，或者更多维度。</p>
+<p><strong>III、 隐藏的链接标签(&lt;a&gt;)</strong></p>
+<p>扫描器的爬虫会把页面里面的所有链接都抓出来去做漏洞探测，特别是现在基于
+webkit 一类的扫描器，能够渲染 css 跟 js，可以爬出更多的链接测试。</p>
+<p>隐藏的标签链接是指人看不见的链接，如
+&lt;a href=&#8221;<a class="reference external" href="http://www.cnseay.com/">http://www.cnseay.com/</a>&#8220;&gt;&lt;/a&gt;,但是扫描器会抓取并进行漏洞测试</p>
+<p>当然如果在正常情况下也给所有用户植入这种代码是非常令人反感的，用户体验
+也会大打折扣，可以在前期先做一些条件限制，比如固定时间段内触发 waf 拦截
+规则到达预定阀值，再给这个用户单独植入一个隐藏链接。</p>
+<p><strong>IV、 Cookie 植入</strong></p>
+<p>Cookie 植入的方式跟上面讲的隐藏链接植入大同小异，实现原理是：当一个
+IP+user angent 在固定时间段内触发规则的次数到达一定阀值，给发起请求的
+这个人植入一个 cookie，如果下次再请求没有携带这个 cookie，则说明是扫描
+器。</p>
+<p>cookie 植入有利有弊，优点是更直接，种下 cookie 马上就能根据下一个请求判
+断。缺点是这个方式在基于 webkit 的扫描器上面行不通。</p>
+<p><strong>V、 验证码验证</strong></p>
+<p>验证码验证的方式跟上面的 cookie 植入也大同小异，不过是把 cookie 换成了验
+证码的方式，这种方法也被用于防 CC 攻击。</p>
+<p><strong>VI、 单 IP 请求时间段内 Webserver 返回 http 状态 404 比例</strong></p>
+<p>这种方法主要用来应对探测敏感目录和文件的扫描器，这类的扫描器都是基于字
+典文件，通过对字典内的 url 进行请求获得的返回信息来进行判断目录或者文件
+的是否存在。如果某个 IP 在一段时间内请求频率过快，这时候 waf 可以进行收集一段时间内
+webserver 返回 404 状态数目，到达一定阀值后进行封杀。</p>
+</div></blockquote>
+<p><strong>2、思考</strong></p>
+<p>看过上面几种方法的介绍，应该大部分人都会想到两个问题，</p>
+<p>1)一大拨人使用同一个公网 IP，怎么判断谁是攻击者？</p>
+<ol class="arabic simple" start="2">
+<li>一大拨人使用同一个公网 IP，怎么才能保证不误杀？</li>
+</ol>
+<p>第一，对于怎么判断攻击者，当然不能单纯的从一个 IP 判断，一般一个完整的http 请求都会带有 user angent、cookie 等信息，我们可以结合 ip+user angent
+来判断请求的人，或者再加一个 cookie 的维度，当然在给这个攻击者植隐藏链接、cookie 或者验证码之前，需要它触发一些规则阀值，以 免影响用户体验。</p>
+<p>第二，说到怎么保证不误杀，也就是怎么去封杀的问题，关键在于怎么二次判断攻击者，目前最好的方法也是利用 ip+user angent，在判断是扫描器请求后，根据 IP+user angent 进行封杀，另外也是靠 cookie 封杀，关键在于是携带某个
+cookie 键的封杀掉还是不带的封杀掉。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">WAF基本功</a><ul>
+<li><a class="reference internal" href="#id1">什么是WAF</a></li>
+<li><a class="reference internal" href="#id2">WAF被需要的原因</a></li>
+<li><a class="reference internal" href="#id3">WAF的分类</a></li>
+<li><a class="reference internal" href="#id4">WAF的特性</a></li>
+<li><a class="reference internal" href="#id5">WAF的实现</a><ul>
+<li><a class="reference internal" href="#id6">配置模块</a></li>
+<li><a class="reference internal" href="#id7">协议解析模块（重点）</a></li>
+<li><a class="reference internal" href="#id8">规则模块（重点）</a></li>
+<li><a class="reference internal" href="#id9">动作模块（重点）</a></li>
+<li><a class="reference internal" href="#id10">日志模块（重点）</a></li>
+<li><a class="reference internal" href="#id11">错误处理模块</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id12">WAF规则(策略)维护</a></li>
+<li><a class="reference internal" href="#id13">WAF支撑信息库</a></li>
+<li><a class="reference internal" href="#id14">如何辨别WAF</a></li>
+<li><a class="reference internal" href="#id15">WAF识别扫描器原理</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="../index.html"
+                        title="上一章">大话WAF</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/waf_basic/index.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../index.html" title="大话WAF"
+             >上一页</a> |</li>
+        <li><a href="../index.html">waf 1.0 文档</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>

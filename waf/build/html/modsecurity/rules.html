@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>细聊modsecurity规则 &mdash; waf 1.0 文档</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="top" title="waf 1.0 文档" href="../index.html" />
+    <link rel="up" title="聊聊modsecurity" href="index.html" />
+    <link rel="next" title="modsecrity防护案例" href="examples.html" />
+    <link rel="prev" title="安装与配置" href="install_config.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="examples.html" title="modsecrity防护案例"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="install_config.html" title="安装与配置"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="../index.html">waf 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">聊聊modsecurity</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="modsecurity">
+<h1>细聊modsecurity规则<a class="headerlink" href="#modsecurity" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>都有哪些规则<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h3>基础规则集<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>1、 modsecurity_crs_20_protocol_violations.conf</p>
+<img alt="../_images/base1_rules.png" src="../_images/base1_rules.png" />
+<img alt="../_images/base2_rules.png" src="../_images/base2_rules.png" />
+<p>2、 modsecurity_crs_21_protocol_anomalies.conf</p>
+<img alt="../_images/base3_rules.png" src="../_images/base3_rules.png" />
+<p>3、 modsecurity_crs_23_request_limits.conf</p>
+<img alt="../_images/base4_rules.png" src="../_images/base4_rules.png" />
+<p>4、 modsecurity_crs_30_http_policy.conf</p>
+<img alt="../_images/base5_rules.png" src="../_images/base5_rules.png" />
+<p>5、 modsecurity_crs_35_bad_robots.conf modsecurity_35_bad_robots.conf modsecurity_35_bad_scanners.conf</p>
+<img alt="../_images/base6_rules.png" src="../_images/base6_rules.png" />
+<p>6、 modsecurity_crs_40_generic_attacks.conf  modsecurity_40_generic_attacks.data</p>
+<img alt="../_images/base7_rules.png" src="../_images/base7_rules.png" />
+</div>
+<div class="section" id="id3">
+<h3>规则语法<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p>通用格式</p>
+<p>SecRule VARIABLES OPERATOR [TRANSFORMATION_FUNCTIONS, ACTIONS]</p>
+<p><strong>1、阶段phase：</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>1)request headers</li>
+<li>2)request body</li>
+<li>3)response headers</li>
+<li>4)response body</li>
+<li>5)logging</li>
+</ul>
+</div></blockquote>
+<p>五个阶段之间的关系：</p>
+<img alt="../_images/modsecurity-parse.jpg" src="../_images/modsecurity-parse.jpg" />
+<p><strong>2、变量</strong></p>
+<p>1)请求变量</p>
+<img alt="../_images/qingqiu1.png" src="../_images/qingqiu1.png" />
+<img alt="../_images/qingqiu2.png" src="../_images/qingqiu2.png" />
+<p>2)SERVER变量</p>
+<img alt="../_images/qingqiu3.png" src="../_images/qingqiu3.png" />
+<p>3)响应变量</p>
+<img alt="../_images/qingqiu4.png" src="../_images/qingqiu4.png" />
+<p>4)请求体解析变量</p>
+<img alt="../_images/qingqiu5.png" src="../_images/qingqiu5.png" />
+<p>5)实体变量</p>
+<img alt="../_images/qingqiu6.png" src="../_images/qingqiu6.png" />
+<p>6)其他变量</p>
+<img alt="../_images/qingqiu7.png" src="../_images/qingqiu7.png" />
+<img alt="../_images/qing8.png" src="../_images/qing8.png" />
+<p><strong>3、操作符 operator</strong></p>
+<p>1)字符串操作符</p>
+<p>&#64;beginsWith</p>
+<p>&#64;contains</p>
+<p>&#64;containsWord</p>
+<p>&#64;endsWith</p>
+<p>&#64;rx</p>
+<p>&#64;pm  特征字符串的匹配，　大小不敏感，基于Aho-Corasick匹配算法</p>
+<p>&#64;pmFromFile 从文件读取匹配特征字符串</p>
+<p>&#64;streq</p>
+<p>&#64;within</p>
+<p>2)数字操作符</p>
+<p>&#64;eq</p>
+<p>&#64;ge</p>
+<p>&#64;gt</p>
+<p>&#64;le</p>
+<p>&#64;lt</p>
+<p>3)验证操作符</p>
+<p>&#64;validateByteRange</p>
+<p>&#64;validateDTD XML相关</p>
+<p>&#64;validateSchema XML相关</p>
+<p>&#64;validateUrlEncoding</p>
+<p>&#64;validateUtf8Encoding</p>
+<p>4)其他类型操作符</p>
+<p>&#64;geoLookup</p>
+<p>&#64;inspectFile 使用外部脚本处理</p>
+<p>&#64;rbl  去RBL REAL-TIME BLANKHOLE LISTS反垃圾邮件黑名单里查找ipv4地址，或hostname</p>
+<p>&#64;verifyCC</p>
+<p><strong>3、事件函数transform function</strong></p>
+<p>base64Decode</p>
+<p>base64Encode</p>
+<p>compressWhitespace</p>
+<p>cssDecode</p>
+<p>escapeSeqDecode　解码ANSIC escape 序列</p>
+<p>hexDecode</p>
+<p>hexEncode</p>
+<p>htmlEntityDecode</p>
+<p>jsDecode</p>
+<p>length</p>
+<p>lowercase</p>
+<p>md5</p>
+<p>none　移除当前rule的所有transform function</p>
+<p>normalizePath 移除掉多个斜杠</p>
+<p>normalizePathWin 移除掉多个斜杠,但首先会将＼（ｗｉｎ正斜杠）　转化成　／（ｌｉｎｕｘ反斜杠）</p>
+<p>parityEven7bit</p>
+<p>parityOdd7bit</p>
+<p>parityZero7bit</p>
+<p>removeNulls 删除空字节</p>
+<p>removeWhiteSpace 删除空格字符</p>
+<p>replaceComments 将ｃ格式的注视语句/<em>...</em>/转换为空格ASCII 32</p>
+<p>replaceNulls 将null字节转换为空格ASCII 32</p>
+<p>urlDecode</p>
+<p>urlDecodeUni ｕｒｌ解码%uXXXX 编码范围ＦＦ０１　－ＦＦ５Ｅ</p>
+<p>urlEncode</p>
+<p>sha1</p>
+<p>trimLeft 移除左边的空格</p>
+<p>trimeRight 移除右边的空格</p>
+<p>trim  移除左右两端的空格</p>
+<p><strong>4、动作action</strong></p>
+<p>1)disruptive action</p>
+<p>每个rule只能有１个disruptive action，如果有多个disruptive action，那么只有最后一个有效，在rule chain中，disruptive action只能出现在第一个rule中</p>
+<img alt="../_images/qingqiu9.png" src="../_images/qingqiu9.png" />
+<p>2)flow action</p>
+<img alt="../_images/qingqiu10.png" src="../_images/qingqiu10.png" />
+<p>3)metadata action</p>
+<img alt="../_images/qingqiu11.png" src="../_images/qingqiu11.png" />
+<p>4)variable  action</p>
+<img alt="../_images/qingqiu12.png" src="../_images/qingqiu12.png" />
+<p>5)logging action</p>
+<img alt="../_images/qingqiu13.png" src="../_images/qingqiu13.png" />
+<p>6)其他action</p>
+<p>ctl 改变当前事务的配置，可以改变以下配置</p>
+<img alt="../_images/other.png" src="../_images/other.png" />
+<p>multiMatch 每次变量发生变化会进行一次匹配计算</p>
+<p>t 在对变量作匹配操作前指定调用的事务处理函数</p>
+<p>append 响应体中注入内容，该ａｃｔｉｏｎ必须开启ＳｅｃＣｏｎｔｅｎｔＩｎｊｅｃｔｉｏｎ指令</p>
+<p>exec 执行外部脚本或二进制文件</p>
+<p>pause 暂定事务处理</p>
+<p>prepend 响应体中注入内容，该ａｃｔｉｏｎ必须开启ＳｅｃＣｏｎｔｅｎｔＩｎｊｅｃｔｉｏｎ指令</p>
+<p>status  action 为 deny与redirect action时指定响应码</p>
+<p>xmlns XML专用</p>
+<p>cloudflare 增加了以下action</p>
+<p>disabled  DIS　exit_blocked(self, &#8220;DIS&#8221;, rulefile, nolog)</p>
+<p>simulate　SIM　exit_blocked(self, &#8220;SIM&#8221;, rulefile, nolog)</p>
+<p><strong>5、指令directory</strong></p>
+<img alt="../_images/directory.png" src="../_images/directory.png" />
+<p><strong>6、常用操作符</strong></p>
+<div class="line-block">
+<div class="line">或者操作符 e.g.REQUEST_URI|REQUEST_PROTOCOL</div>
+</div>
+<p>: 数组取值操作符 e.g. ARGS:p</p>
+<p>! 非操作符  e.g. ARGS|!ARGS:z</p>
+<p>&#64; 操作符函数调用  e.g. &#64;rx</p>
+<p>t 事务函数调用 e.g.  t:lowercase</p>
+<p>&amp; 取数组个数符 e.g.  &amp;ARGS &#64;ge 1</p>
+<p>% {COLNAME.VARNAME}变量扩展符  e.g.    SecRule REQUEST_URI_RAW &#8220;<a class="reference external" href="mailto:!&#37;&#52;&#48;beginsWith">!<span>&#64;</span>beginsWith</a> <a class="reference external" href="http:/">http:/</a>/%{REQUEST_HEADERS.Host}&#8221; &#8220;drop,tag:&#8217;WEB_ATTACK/ILLEGALHTTPPROTOCOL&#8217;,msg:&#8217;host header
+illegal&#8217;,id:00001,phase:2&#8221;</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">细聊modsecurity规则</a><ul>
+<li><a class="reference internal" href="#id1">都有哪些规则</a><ul>
+<li><a class="reference internal" href="#id2">基础规则集</a></li>
+<li><a class="reference internal" href="#id3">规则语法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="install_config.html"
+                        title="上一章">安装与配置</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="examples.html"
+                        title="下一章">modsecrity防护案例</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/modsecurity/rules.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="examples.html" title="modsecrity防护案例"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="install_config.html" title="安装与配置"
+             >上一页</a> |</li>
+        <li><a href="../index.html">waf 1.0 文档</a> &raquo;</li>
+          <li><a href="index.html" >聊聊modsecurity</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>
