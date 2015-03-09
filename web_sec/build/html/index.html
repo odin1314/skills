@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>大话web安全 &mdash; web_sec 1.0 文档</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="web_sec 1.0 文档" href="#" />
+    <link rel="next" title="前言" href="preamble/index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="preamble/index.html" title="前言"
+             accesskey="N">下一页</a> |</li>
+        <li><a href="#">web_sec 1.0 文档</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="web">
+<h1>大话web安全<a class="headerlink" href="#web" title="永久链接至标题">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">作者:</th><td class="field-body">闻健 <a class="reference external" href="mailto:wenjianxue2009&#37;&#52;&#48;live&#46;cn">wenjianxue2009<span>&#64;</span>live<span>&#46;</span>cn</a></td>
+</tr>
+</tbody>
+</table>
+<p>主要是总结了我学习web安全过程中的一些知识积累，内容包括</p>
+<blockquote>
+<div><p><strong>1、sql注入</strong></p>
+<p><strong>2、文件上传安全</strong></p>
+<p><strong>3、文件包含问题</strong></p>
+<p><strong>4、弱口令</strong></p>
+<p><strong>5、XSS</strong></p>
+<p><strong>6、CSRF</strong></p>
+<p><strong>7、社会工程学</strong></p>
+<p><strong>8、推荐的书籍</strong></p>
+<p><strong>9、推荐的工具</strong></p>
+</div></blockquote>
+<div class="section" id="id1">
+<h2>文章内容:<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="preamble/index.html">前言</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="preamble/index.html#web">web服务组件的构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preamble/index.html#id2">web 安全威胁的分类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preamble/index.html#id3">十大web威胁</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preamble/index.html#id4">web常见漏洞产生原因分类</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sql_injection/index.html">注入攻击</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sql_injection/index.html#sql">sql注入形成的原因</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sql_injection/index.html#id2">sql注入的分类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sql_injection/index.html#id3">sql注入的危害</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sql_injection/index.html#id6">sql注入的防护</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sql_injection/index.html#id7">注入点的查找</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sql_injection/index.html#id8">sql 检测产品检测原理</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="file_upload/index.html">文件上传漏洞</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="file_upload/index.html#id2">文件上传漏洞产生的原因</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_upload/index.html#id3">服务器的校验和绕过</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_upload/index.html#id4">服务器如何防护</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_upload/index.html#tips">tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file_upload/index.html#id5">补充</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="file_include/index.html">文件包含漏洞</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="file_include/index.html#php">php的文件包含问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="file_include/index.html#id2">原因</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_include/index.html#id3">涉及到的函数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_include/index.html#id4">举例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_include/index.html#id5">防护</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file_include/index.html#id6">如何发现漏洞</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="book/index.html">推荐的书籍</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">內容目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">大话web安全</a><ul>
+<li><a class="reference internal" href="#id1">文章内容:</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="preamble/index.html"
+                        title="下一章">前言</a></p>
+  <h3>本页</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">显示源代码</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>快速搜索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="转向" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    输入相关的术语，模块，类或者函数名称进行搜索
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="preamble/index.html" title="前言"
+             >下一页</a> |</li>
+        <li><a href="#">web_sec 1.0 文档</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; 版权所有 2015, wenjian.
+      由 <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3 创建。
+    </div>
+  </body>
+</html>
